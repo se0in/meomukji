@@ -15,19 +15,19 @@ const Home = () => {
 
   
   // ! 데이터 불러오기
-  useEffect(() => {
-    const fetchDataFromServer = async () => {
-      try {
-        const data = await fetchData(); // 서버에서 데이터를 가져옵니다.
+  // useEffect(() => {
+  //   const fetchDataFromServer = async () => {
+  //     try {
+  //       const data = await fetchData(); // 서버에서 데이터를 가져옵니다.
 
-        console.log(data);
-      } catch (error) {
-        console.error('데이터를 불러오는 중에 에러가 발생했습니다. : ', error);
-      }
-    };
+  //       console.log(data);
+  //     } catch (error) {
+  //       console.error('데이터를 불러오는 중에 에러가 발생했습니다. : ', error);
+  //     }
+  //   };
 
-    fetchDataFromServer();
-  }, []);
+  //   fetchDataFromServer();
+  // }, []);
 
 
 
