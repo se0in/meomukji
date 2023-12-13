@@ -1,0 +1,43 @@
+@import './$_variables.scss';
+
+.Detail {
+  .bubble {
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 20px;
+
+    .img-box {
+      width: 100%;
+      height: 200px;
+      border-radius: 20px;
+      border: $box-border;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+    .desc {
+      margin-top: 10px;
+      .desc-item {
+        padding: 20px 0;
+        &.ingredient {
+          border-bottom: $box-border;
+        }
+        h3 {
+          margin-bottom: 15px;
+          color: $sub-text-color;
+          font-weight: 400;
+        }
+        .list {
+          .procedure {
+            display: flex;
+            gap: 10px;
+            margin: 16px 0 20px;
+          }
+        }
+      }
+    }
+  }
+}

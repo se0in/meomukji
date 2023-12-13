@@ -1,0 +1,47 @@
+@import './$_variables.scss';
+
+header {
+  position: fixed;
+  top: 0;
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 70px;
+  padding: 10px 20px 0;
+  box-sizing: border-box;
+  backdrop-filter: blur(10px);
+  a {
+    display: block;
+    width: 86px;
+    img {
+      width: 100%;
+    }
+  }
+}
+
+// * header fixed 영역 채움
+.header-area {
+  height: 70px;
+  width: 100%;
+}
+
+// * header button common 
+button.header-btn {
+  width: 40px;
+  height: 40px;
+
+  svg {
+    vertical-align: -2px;
+    font-size: 25px;
+    color: $btn-svg-color;
+    transition: .3s;
+  }
+  &:hover svg {
+    color: $tab-active-color;
+  }
+  &.back-btn {
+    text-align: left;
+  }
+}
