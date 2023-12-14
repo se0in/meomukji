@@ -52,8 +52,8 @@ export const OrangeToggleButton = ({isActive, text, toggleActive })  => {
 };
 
 // * 초기화 버튼
-export const ResetButton = () => {
+export const ResetButton = ({handleReset}) => {
   return (
-    <ResetBtn type='reset'>초기화</ResetBtn>
+    <ResetBtn type='reset' onClick={handleReset}>초기화</ResetBtn>
   )
 }

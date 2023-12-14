@@ -4,10 +4,9 @@
  * * Search페이지 재료 등록, 삭제
  * */
 
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { DarkButton, Registration } from './Buttons'
 import { InputText } from '../styled-components/Styled'
-import { fetchDataIngredient } from '../server/server';
 
 const SearchIngredient = () => {
   const [newItemText, setNewItemText] = useState('');
@@ -23,10 +22,15 @@ const SearchIngredient = () => {
     // * 공백 확인, 제거 후 input 빈 창
     if (newItemText.trim() !== '') {
       setNewItemText('');
-
+      
       // * 3개 제한
       items.length < 3 ?
-      setItems(prevItems => [...prevItems, newItemText.trim()]) :
+      setItems(prevItems => {
+        const updatedItems = [...prevItems, newItemText.trim()];
+        console.log('등록된 아이템:', updatedItems); // 등록된 아이템 콘솔에 출력
+        setItems(updatedItems);
+        // return updatedItems;
+      }) :
       alert("재료는 3개까지만 등록할 수 있어요 :( ");
     }
   };
@@ -38,38 +42,15 @@ const SearchIngredient = () => {
     setItems(updateItems);
   }
 
-
-
-  // ! 데이터 불러오기
-  useEffect(() => {
-    const fetchDataFromServer = async () => {
-      try {
-        const data = await fetchDataIngredient();
-
-        console.log(data);
-      } catch (error) {
-        console.error('데이터를 불러오는 중에 에러가 발생했습니다. : ', error);
-      }
-    };
-
-    fetchDataFromServer();
-  }, []);
-
-
-
-
-
-
   return (
     <>
       {/* // *등록 결과 , 클릭 시 삭제 */}
       <div className="registration-box">
-        {items.map((item, index) => (
+        {items && items.map((item, index) => (
           <Registration
             key={index}
             index={index}
             text={item}
-            
             handleDelete={handleItemDelete}
           />
         ))}
@@ -82,6 +63,11 @@ const SearchIngredient = () => {
           placeholder='입력 후 등록을 눌러주세요.'
           value={newItemText}
           onChange={handleInputChange}
+          onKeyDown={(e) => {
+            if(e.key === 'Enter'){
+              handleItemRegistration()
+            }
+          }}
         />
         <DarkButton
           type="button"
