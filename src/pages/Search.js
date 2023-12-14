@@ -59,6 +59,9 @@ const Search = () => {
 
 
 
+
+
+
   const [isShowFilter, setIsShowFilter] = useState(false);
   // * 더보기 버튼 클릭 시 more filter 
   const moreShow = () => {
@@ -74,16 +77,17 @@ const Search = () => {
       // console.log('data: ', data);
       // * 등록한 아이템과 같은 이름을 가진 레시피 넘버 가져오기
       const matchedItems = data.filter(item => items.includes(item.ingredient_name));
+      console.log('matchedItems: ', matchedItems);
       if (!matchedItems.length === 0) {
         matchedItems.forEach(item => {
           console.log(item.ingredient_name, item.recipe_id);
         });
+        // * setSearchResult에 저장
+        setSearchResult(matchedItems);
       } else {
         alert('해당 이름을 가진 재료 레시피는 없어요 :( ');
         return null;
       }
-      // * setSearchResult에 저장
-      setSearchResult(matchedItems);
     } catch (error) {
       console.error('데이터를 불러오는 중에 에러가 발생했습니다. : ', error);
     }
@@ -154,7 +158,7 @@ const Search = () => {
         </div>
       </BorderRadiusBox>
       <div className="submit-btn-box">
-        <ResetButton handleReset={handleReset}>초기화</ResetButton>
+        <ResetButton onClick={handleReset}>초기화</ResetButton>
         <MainBtn
           type='submit'
           onClick={handleSearchResultClick}
