@@ -3,30 +3,13 @@
  * Create Date 2023.12.12.
  * * 메인 페이지 버튼 클릭 시 검색페이지로 이동
  * */
-import React, { useEffect } from 'react';
-// * data server
-import { fetchData } from '../server/server';
+import React from 'react';
 import {MainButton} from '../components/Buttons';
 import { BorderRadiusBox } from '../styled-components/Styled';
 import '../scss/Home.scss';
 
 const Home = () => {
 
-  
-  // ! 데이터 불러오기
-  useEffect(() => {
-    const fetchDataFromServer = async () => {
-      try {
-        const data = await fetchData();
-
-        console.log(data);
-      } catch (error) {
-        console.error('데이터를 불러오는 중에 에러가 발생했습니다. : ', error);
-      }
-    };
-
-    fetchDataFromServer();
-  }, []);
 
   return (
     <div className='Home'>

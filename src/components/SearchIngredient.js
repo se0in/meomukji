@@ -4,9 +4,10 @@
  * * Search페이지 재료 등록, 삭제
  * */
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { DarkButton, Registration } from './Buttons'
 import { InputText } from '../styled-components/Styled'
+import { fetchDataIngredient } from '../server/server';
 
 const SearchIngredient = () => {
   const [newItemText, setNewItemText] = useState('');
@@ -37,6 +38,28 @@ const SearchIngredient = () => {
     setItems(updateItems);
   }
 
+
+
+  // ! 데이터 불러오기
+  useEffect(() => {
+    const fetchDataFromServer = async () => {
+      try {
+        const data = await fetchDataIngredient();
+
+        console.log(data);
+      } catch (error) {
+        console.error('데이터를 불러오는 중에 에러가 발생했습니다. : ', error);
+      }
+    };
+
+    fetchDataFromServer();
+  }, []);
+
+
+
+
+
+
   return (
     <>
       {/* // *등록 결과 , 클릭 시 삭제 */}
@@ -46,6 +69,7 @@ const SearchIngredient = () => {
             key={index}
             index={index}
             text={item}
+            
             handleDelete={handleItemDelete}
           />
         ))}

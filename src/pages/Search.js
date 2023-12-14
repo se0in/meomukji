@@ -4,7 +4,7 @@
  * * Home > Search 
  * * 냉장고 재료 검색 페이지
  * */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 
@@ -14,6 +14,7 @@ import SearchFilter from '../components/SearchFilter';
 import { BorderRadiusBox, MainBtn, PageTitle } from '../styled-components/Styled';
 import '../scss/Search.scss';
 import { IoIosArrowDown } from "react-icons/io";
+import { fetchDataIngredient } from '../server/server';
 
 const Search = () => {
   const [isShowFilter, setIsShowFilter] = useState(false);
@@ -22,6 +23,21 @@ const Search = () => {
     setIsShowFilter(!isShowFilter);
   }
 
+  
+/*   // ! 데이터 불러오기
+  useEffect(() => {
+    const fetchDataFromServer = async () => {
+      try {
+        const data = await fetchDataIngredient();
+
+        console.log(data);
+      } catch (error) {
+        console.error('데이터를 불러오는 중에 에러가 발생했습니다. : ', error);
+      }
+    };
+
+    fetchDataFromServer();
+  }, []); */
 
   return (
     <div className='Search'>
