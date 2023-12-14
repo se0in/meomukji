@@ -11,6 +11,9 @@ import InputRange from './InputRange'
 const SearchFilter = () => {
   // * 버튼 토글 관리
 
+  
+
+
   // * 요리 종류
   const [kindCookList, setKindCookList] = useState([
     { text: '한식', isActive: false },
@@ -61,6 +64,7 @@ const SearchFilter = () => {
                   text={item.text}
                   isActive={item.isActive}
                   toggleActive={() => toggleKindActive(index)}
+                 
                 />
               ))}
             </div>
@@ -78,6 +82,8 @@ const SearchFilter = () => {
                   text={item.text === '전체' ? item.text : `${item.text}분 이하`}
                   isActive={item.isActive}
                   toggleActive={() => toggleTimeActive(index)}
+                  
+                  
                 />
               ))}
             </div>
