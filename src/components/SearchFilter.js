@@ -2,6 +2,7 @@
  * author se0in
  * Create Date 2023.12.13.
  * * Search 페이지에서 more 클릭 시 나오는 필터 영역
+ * // ! 보류
  * */
 
 import React, { useState } from 'react'
@@ -10,9 +11,6 @@ import InputRange from './InputRange'
 
 const SearchFilter = () => {
   // * 버튼 토글 관리
-
-  
-
 
   // * 요리 종류
   const [kindCookList, setKindCookList] = useState([
@@ -64,7 +62,6 @@ const SearchFilter = () => {
                   text={item.text}
                   isActive={item.isActive}
                   toggleActive={() => toggleKindActive(index)}
-                 
                 />
               ))}
             </div>
@@ -82,8 +79,6 @@ const SearchFilter = () => {
                   text={item.text === '전체' ? item.text : `${item.text}분 이하`}
                   isActive={item.isActive}
                   toggleActive={() => toggleTimeActive(index)}
-                  
-                  
                 />
               ))}
             </div>

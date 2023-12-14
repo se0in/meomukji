@@ -7,9 +7,9 @@
 import React, { useState } from "react";
 // import { Link } from 'react-router-dom';
 
-import { DarkButton, Registration, ResetButton } from "../components/Buttons";
+import { DarkButton, OrangeToggleButton, Registration, ResetButton } from "../components/Buttons";
 // import SearchIngredient from '../components/SearchIngredient';
-import SearchFilter from "../components/SearchFilter";
+// import SearchFilter from "../components/SearchFilter";
 import {
   BorderRadiusBox,
   InputText,
@@ -19,49 +19,44 @@ import {
 import "../scss/Search.scss";
 import { IoIosArrowDown } from "react-icons/io";
 import { fetchDataIngredient } from "../server/server";
+import InputRange from '../components/InputRange';
 
 const Search = () => {
   const [searchResult, setSearchResult] = useState(null);
   const [newItemText, setNewItemText] = useState("");
   const [items, setItems] = useState([]);
 
-  // * 하위 컴포넌트 리셋
-
+  
   // * input 변하는 값
   const handleInputChange = (e) => {
     setNewItemText(e.target.value);
   };
-
+  
   // * 아이템 등록 (3개까지만)
   const handleItemRegistration = () => {
     // * 공백 확인, 제거 후 input 빈 창
     if (newItemText.trim() !== "") {
       setNewItemText("");
-
+      
       // * 3개 제한
       items.length < 3
-        ? setItems((prevItems) => {
-            const updatedItems = [...prevItems, newItemText.trim()];
-            // console.log('등록된 아이템:', updatedItems); // 등록된 아이템 콘솔에 출력
-            setItems(updatedItems);
-            // return updatedItems;
-          })
-        : alert("재료는 3개까지만 등록할 수 있어요 :( ");
+      ? setItems((prevItems) => {
+        const updatedItems = [...prevItems, newItemText.trim()];
+        // console.log('등록된 아이템:', updatedItems); // 등록된 아이템 콘솔에 출력
+        setItems(updatedItems);
+        // return updatedItems;
+      })
+      : alert("재료는 3개까지만 등록할 수 있어요 :( ");
     }
   };
-
+  
   // * 아이템 삭제
   const handleItemDelete = (indexToDelete) => {
     // * 버튼의 인덱스 Buttons.js에서 받아와서 Registration의 index와 비교 후 삭제
     const updateItems = items.filter((_, index) => index !== indexToDelete);
     setItems(updateItems);
   };
-  // * 초기화 버튼
-  const handleReset = () => {
-    setSearchResult(null); // 검색 결과 초기화 > // !이건 나중에 지우기
-    setNewItemText(""); // 입력한 텍스트 초기화
-    setItems([]); // 아이템 초기화
-  };
+
 
   const [isShowFilter, setIsShowFilter] = useState(false);
   // * 더보기 버튼 클릭 시 more filter
@@ -69,7 +64,52 @@ const Search = () => {
     setIsShowFilter(!isShowFilter);
   };
 
-  // 버튼 클릭 시 데이터 가져오는 핸들러
+
+// * 버튼 토글 관리
+
+  // * 요리 종류
+  const [kindCookList, setKindCookList] = useState([
+    { text: '한식', isActive: false },
+    { text: '양식', isActive: false },
+    { text: '중식', isActive: false },
+  ]);
+
+  // * 다중 선택
+  const toggleKindActive = (index) => {
+    const updateList = kindCookList.map((item, i) =>
+      i === index ? { ...item, isActive: !item.isActive } : item
+    )
+    setKindCookList(updateList);
+  };
+
+  // * 시간
+  const [timeCookList, setTimeCookList] = useState([
+    { text: 0, isActive: false },
+    { text: 20, isActive: false },
+    { text: 40, isActive: false },
+    { text: 60, isActive: false },
+    { text: '전체', isActive: false },
+  ]);
+  // * 단일 선택
+  const toggleTimeActive = (index) => {
+    const updateList = timeCookList.map((item, i) => ({
+      ...item,
+      isActive: i === index
+    }))
+    setTimeCookList(updateList)
+
+  };
+
+
+
+
+
+
+
+
+
+
+  // * 버튼 클릭 시 데이터 가져오는 핸들러
   const handleSearchResultClick = async () => {
     try {
       //  ! 데이터는 [배열{객체},{객체}]로 저장되어 있음
@@ -95,6 +135,38 @@ const Search = () => {
       console.error("데이터를 불러오는 중에 에러가 발생했습니다. : ", error);
     }
   };
+
+
+  // * 초기화 버튼 
+  const handleReset = () => {
+    setSearchResult(null); // 검색 결과 초기화 > // !이건 나중에 지우기
+    setNewItemText(""); // 입력한 텍스트 초기화
+    setItems([]); // 아이템 초기화
+    setKindCookList([
+      { text: '한식', isActive: false },
+    { text: '양식', isActive: false },
+    { text: '중식', isActive: false },
+    ]);
+    setTimeCookList([
+      { text: 0, isActive: false },
+      { text: 20, isActive: false },
+      { text: 40, isActive: false },
+      { text: 60, isActive: false },
+      { text: '전체', isActive: false },
+    ]);
+
+ 
+  };
+
+
+
+
+
+
+
+
+
+
 
   return (
     <div className="Search">
@@ -165,8 +237,62 @@ const Search = () => {
           </div>
 
           {/* // * 더보기 content  */}
-          {isShowFilter && <SearchFilter 
-          />}
+          {
+          isShowFilter &&  /*  <SearchFilter /> */
+         
+        
+        
+          <>
+          {/* // * 더보기 클릭 시 보일 부분 */}
+          <div className="more">
+    
+            <div className="filter-box">
+              {/* // * 요리 분류 button 
+              // * 활성화 active class */}
+              <div className="item">
+                <p>분류<span>다중 선택 가능</span></p>
+                <div className="item-content kind-list">
+                  {kindCookList.map((item, index) => (
+                    <OrangeToggleButton
+                      key={index}
+                      index={index}
+                      text={item.text}
+                      isActive={item.isActive}
+                      toggleActive={() => toggleKindActive(index)}
+                    />
+                  ))}
+                </div>
+              </div>
+    
+              {/* // * 조리 시간 : button 
+              // * 활성화 active class */}
+              <div className="item">
+                <p>조리 시간<span>단일 선택 가능</span></p>
+                <div className="item-content time">
+                  {timeCookList.map((item, index) => (
+                    <OrangeToggleButton
+                      key={index}
+                      index={index}
+                      text={item.text === '전체' ? item.text : `${item.text}분 이하`}
+                      isActive={item.isActive}
+                      toggleActive={() => toggleTimeActive(index)}
+                    />
+                  ))}
+                </div>
+              </div>
+    
+              {/* // * 칼로리 : input - range */}
+              <div className="item">
+                <p>칼로리</p>
+                <div className="item-content kcal">
+                  <InputRange />
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+        
+        }
 
 
         </div>
