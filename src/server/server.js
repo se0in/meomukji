@@ -1,10 +1,9 @@
-// /**
-//  * author se0in
-//  * Create Date 2023.12.13.
-//  * * server 관리
-//  * * 농림축산식품 공공데이터포털 https://data.mafra.go.kr/main.do
-//  * */
-// server.js
+/**
+ * author se0in
+ * Create Date 2023.12.13.
+ * * server 관리
+ * * 농림축산식품 공공데이터포털 https://data.mafra.go.kr/main.do
+ * */
 import axios from "axios";
 
 

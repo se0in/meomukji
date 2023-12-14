@@ -8,8 +8,7 @@ import React, { useEffect } from 'react';
 import { fetchData } from '../server/server';
 import {MainButton} from '../components/Buttons';
 import { BorderRadiusBox } from '../styled-components/Styled';
-import '../scss/Home.scss'
-// import axios from 'axios';
+import '../scss/Home.scss';
 
 const Home = () => {
 
@@ -18,7 +17,7 @@ const Home = () => {
   useEffect(() => {
     const fetchDataFromServer = async () => {
       try {
-        const data = await fetchData(); // 서버에서 데이터를 가져옵니다.
+        const data = await fetchData();
 
         console.log(data);
       } catch (error) {
@@ -28,15 +27,6 @@ const Home = () => {
 
     fetchDataFromServer();
   }, []);
-
-/*   useEffect(() => {
-    async function fetchData() {
-      const { data } = await axios.get('/users');
-      console.log(data);
-    }
-    fetchdata();
-  }, []);
- */
 
   return (
     <div className='Home'>
