@@ -8,13 +8,27 @@
 import React from 'react';
 import { BorderRadiusBox, PageTitle } from '../styled-components/Styled';
 import '../scss/Result.scss';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Result = () => {
+  // * 데이터 받아오기
+  const location = useLocation();
+  const matchedItems = location.state.matchedItems;
+  console.log('matchedItems: ', matchedItems);
+
+
+
+
+
+
+
+
+
+
   return (
     <div className='Result'>
       <PageTitle>검색 결과 
-        <span>16개의 레시피가 있습니다.</span>
+        <span>{matchedItems.length}개의 레시피가 있습니다.</span>0
       </PageTitle>
       <div className='list-box'>
 
@@ -55,4 +69,4 @@ const Result = () => {
   )
 }
 
-export default Result
+export default Result;

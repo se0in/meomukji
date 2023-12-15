@@ -30,12 +30,12 @@ const Search = () => {
 
 
   // * input 변하는 값
-  const handleInputChange = (e) => {
+  let handleInputChange = (e) => {
     setNewItemText(e.target.value);
   };
 
   // * 아이템 등록 (3개까지만)
-  const handleItemRegistration = () => {
+  let handleItemRegistration = () => {
     // * 공백 확인, 제거 후 input 빈 창
     if (newItemText.trim() !== "") {
       setNewItemText("");
@@ -52,16 +52,16 @@ const Search = () => {
   };
 
   // * 아이템 삭제
-  const handleItemDelete = (indexToDelete) => {
+  let handleItemDelete = (indexToDelete) => {
     // * 버튼의 인덱스 Buttons.js에서 받아와서 Registration의 index와 비교 후 삭제
-    const updateItems = items.filter((_, index) => index !== indexToDelete);
+    let updateItems = items.filter((_, index) => index !== indexToDelete);
     setItems(updateItems);
   };
 
 
-  const [isShowFilter, setIsShowFilter] = useState(false);
+  let [isShowFilter, setIsShowFilter] = useState(false);
   // * 더보기 버튼 클릭 시 more filter
-  const moreShow = () => {
+  let moreShow = () => {
     setIsShowFilter(!isShowFilter);
   };
 
@@ -69,22 +69,22 @@ const Search = () => {
   // * 버튼 토글 관리
 
   // * 요리 종류
-  const [kindCookList, setKindCookList] = useState([
+  let [kindCookList, setKindCookList] = useState([
     { text: '한식', isActive: false },
     { text: '양식', isActive: false },
     { text: '중식', isActive: false },
   ]);
 
   // * 다중 선택
-  const toggleKindActive = (index) => {
-    const updateList = kindCookList.map((item, i) =>
+  let toggleKindActive = (index) => {
+    let updateList = kindCookList.map((item, i) =>
       i === index ? { ...item, isActive: !item.isActive } : item
     )
     setKindCookList(updateList);
   };
 
   // * 시간
-  const [timeCookList, setTimeCookList] = useState([
+  let [timeCookList, setTimeCookList] = useState([
     { text: 0, isActive: false },
     { text: 20, isActive: false },
     { text: 40, isActive: false },
@@ -92,8 +92,8 @@ const Search = () => {
     { text: '전체', isActive: false },
   ]);
   // * 단일 선택
-  const toggleTimeActive = (index) => {
-    const updateList = timeCookList.map((item, i) => ({
+  let toggleTimeActive = (index) => {
+    let updateList = timeCookList.map((item, i) => ({
       ...item,
       isActive: i === index
     }))
@@ -122,10 +122,10 @@ const Search = () => {
       } else {
 
         //  ! 데이터는 [배열{객체},{객체}]로 저장되어 있음
-        const data = await fetchDataIngredient(items);
-        // console.log('data: ', data);
+        const DATA = await fetchDataIngredient(items);
+        // console.log('data: ', DATA);
         // * 등록한 아이템과 같은 이름을 가진 레시피 넘버 가져오기
-        const matchedItems = data.filter((item) =>
+        let matchedItems = DATA.filter((item) =>
           items.includes(item.ingredient_name)
         );
         console.log("matchedItems from 검색페이지: ", matchedItems);
@@ -152,7 +152,7 @@ const Search = () => {
 
 
   // * 초기화 버튼 
-  const handleReset = () => {
+  let handleReset = () => {
     setSearchResult(null); // 검색 결과 초기화 > // !이건 나중에 지우기
     setNewItemText(""); // 입력한 텍스트 초기화
     setItems([]); // 아이템 초기화
@@ -171,16 +171,6 @@ const Search = () => {
 
 
   };
-
-
-
-
-
-
-
-
-
-
 
   return (
     <div className="Search">

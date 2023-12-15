@@ -75,7 +75,7 @@ export const fetchDataIngredient = async () => {
 
   try {
     // * 검색 결과 데이터 담을 빈 배열
-    const combinedData = [];
+    let combinedData = [];
     // 모든 응답에서 레시피 ID를 모을 배열
     let combinedRecipeIds = []; 
 
@@ -119,8 +119,8 @@ export const fetchDataIngredient = async () => {
 
     // ! 레시피의 총 개수 
     // * 중복을 제거한 총 레시피 수 계산
-    const uniqueRecipeIds = [...new Set(combinedRecipeIds)];
-    const totalRecipeCount = uniqueRecipeIds.length;
+    let uniqueRecipeIds = [...new Set(combinedRecipeIds)];
+    let totalRecipeCount = uniqueRecipeIds.length;
 
     console.log('총 레시피 개수:', totalRecipeCount);
 
