@@ -5,65 +5,134 @@
  * * 추후 로그인 시에만 전체 리스트 볼 수 있도록 설계
  * */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BorderRadiusBox, PageTitle } from '../styled-components/Styled';
 import '../scss/Result.scss';
 import { Link, useLocation } from 'react-router-dom';
+import { fetchDataBasic } from '../server/server';
+import imgDataJson from '../data/data.json'
 
 const Result = () => {
-  // * 데이터 받아오기
+  const [recipeInfo, setRecipeInfo] = useState([]);
   const location = useLocation();
-  const matchedItems = location.state.matchedItems;
-  console.log('matchedItems: ', matchedItems);
+  const matchedItems = location.state.matchedItems; // 이전 페이지(검색)에서 받아온 정보들
+  const [imgUrls, setImgUrls] = useState({}); // * json이미지 url
+
+  // * 데이터 받아오기
+  useEffect(() => {
+    const id = matchedItems.map((item) => item.$recipe_id)
+
+    console.log('이전 페이지(검색)에서 받아온 정보들: ', matchedItems);
+    console.log('이전 페이지(검색)에서 받아온 정보 개수: ', matchedItems.length);
+
+
+    // * 기본 정보 데이터
+    const fetchRecipeBasicInfo = async () => {
+      try {
+        const DATA = await fetchDataBasic(id);
+        console.log('DATA: ', DATA);
+        // console.log('DATA: ', DATA);
+
+        setRecipeInfo(DATA);
+      } catch (error) {
+        console.error("데이터를 불러오는 중에 에러가 발생했습니다. : ", error);
+      }
+    };
+    fetchRecipeBasicInfo()
+    // console.log("일치하는 데이터 가져오기",recipeInfo);
 
 
 
+  }, [matchedItems])
+  console.log("출력될 값", recipeInfo);
 
 
 
+  // * recipe_id와 imgUrl 매칭
+  useEffect(() => {
+    const jsonIds = imgDataJson.map((item) => item.recipe_id);
+    console.log('jsonIds: ', jsonIds);
 
+    const recipeIds = matchedItems.map(item => item.$recipe_id);
+    console.log('recipeIds: ', recipeIds);
 
+    
+
+    const matchingRecipeIds = recipeIds.filter(recipe_id => jsonIds.includes(Number(recipe_id)));
+
+    console.log('matchingRecipeIds: ', matchingRecipeIds);
+
+    const imgUrlObj = {};
+
+    matchingRecipeIds.forEach(id => {
+      // !
+      // !
+      // !
+      // !
+      
+      // ! 현재 진행 중 위치 20231215
+      const matchedRecipe = imgDataJson.find(recipe => recipe.recipe_id === recipeIds);
+      console.log('matchedRecipe: ', matchedRecipe);
+      
+      if (matchedRecipe) {
+        imgUrlObj[id] = matchedRecipe.imgUrl;
+      }
+
+    });
+
+    setImgUrls(imgUrlObj)
+    console.log('imgUrlObj: ', imgUrlObj);
+  }, [matchedItems])
 
 
   return (
     <div className='Result'>
-      <PageTitle>검색 결과 
-        <span>{matchedItems.length}개의 레시피가 있습니다.</span>0
+      <PageTitle>검색 결과
+        <span>{matchedItems.length}개의 레시피가 있습니다.</span>
       </PageTitle>
       <div className='list-box'>
 
         {/* // * 반복 돌릴 것 : Link */}
-        <Link to='/Detail'>
-          <BorderRadiusBox className='list'>
-            {/* // * 아이템 타이틀 */}
-            <div className="item-title">
-              <div className="img-box">
+        {recipeInfo.map((item) => (
+          <Link
+            to={`/Detail/${item.$recipe_id}`}
+            key={item.$recipe_id}
+          >
+            <BorderRadiusBox className='list'>
+              {/* // * 아이템 타이틀 */}
+              <div className="item-title">
+                <div className="img-box">
+                  <img
+                    src={imgUrls[item.$recipe_id]}
+                    alt={item.$recipe_name}
+                  />
+                </div>
+                <div className="text-box">
+                  <p className='desc'>{item.$desc}</p>
+                  <p className='name'>{item.$recipe_name}</p>
+                </div>
               </div>
-              <div className="text-box">
-                <p className='desc'>육수로 지은 밥에 야채를 듬뿍 넣은 영양만점 나물비빔밥!</p>
-                <p className='name'>나물비빔밥</p>
-              </div>
-            </div>
 
-            {/* // * 아이템 설명 */}
-            <div className="item-desc">
-              <p className='time'>
-                조리 시간 
-                <span>60분</span>
-              </p>
-              {/* // * 검색 결과 className point-color */}
-              <p className='ingredient'>
-                재료 
-                <span className='point-color'>쌀</span>
-                <span>미나리</span>
-                <span>안심</span>
-                <span>고추장</span>
-                <span>국간장</span>
-                <span>계란</span>
-              </p>
-            </div>
-          </BorderRadiusBox>
-        </Link>
+              {/* // * 아이템 설명 */}
+              <div className="item-desc">
+                <p className='time'>
+                  조리 시간
+                  <span>{item.$cook_time}</span>
+                </p>
+                {/* // * 검색 결과 className point-color */}
+                <p className='ingredient'>
+                  재료
+                  <span className='point-color'>쌀</span>
+                  <span>미나리</span>
+                  <span>안심</span>
+                  <span>고추장</span>
+                  <span>국간장</span>
+                  <span>계란</span>
+                </p>
+              </div>
+            </BorderRadiusBox>
+          </Link>
+        ))}
       </div>
     </div>
   )

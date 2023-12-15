@@ -126,13 +126,13 @@ const Search = () => {
         // console.log('data: ', DATA);
         // * 등록한 아이템과 같은 이름을 가진 레시피 넘버 가져오기
         let matchedItems = DATA.filter((item) =>
-          items.includes(item.ingredient_name)
+          items.includes(item.$ingredient_name)
         );
         console.log("matchedItems from 검색페이지: ", matchedItems);
 
         if (matchedItems.length > 0) {
           matchedItems.forEach((item) => {
-            console.log("from 검색페이지 : ", item.ingredient_name, item.recipe_id);
+            console.log("from 검색페이지 : ", item.$ingredient_name, item.$recipe_id);
           });
 
           // * setSearchResult에 저장

@@ -8,8 +8,11 @@
 import React from 'react';
 import '../scss/Detail.scss';
 import { BorderRadiusBox, PageTitle } from '../styled-components/Styled';
+// import { useParams } from 'react-router';
 
 const Detail = () => {
+  // const { recipeId } = useParams();
+
   return (
     <div className='Detail'>
       <PageTitle>나물비빔밥 
