@@ -22,15 +22,15 @@ const Result = () => {
   useEffect(() => {
     const id = matchedItems.map((item) => item.$recipe_id)
 
-    console.log('이전 페이지(검색)에서 받아온 정보들: ', matchedItems);
-    console.log('이전 페이지(검색)에서 받아온 정보 개수: ', matchedItems.length);
+    // console.log('이전 페이지(검색)에서 받아온 정보들: ', matchedItems);
+    // console.log('이전 페이지(검색)에서 받아온 정보 개수: ', matchedItems.length);
 
 
     // * 기본 정보 데이터
     const fetchRecipeBasicInfo = async () => {
       try {
         const DATA = await fetchDataBasic(id);
-        console.log('DATA: ', DATA);
+        // console.log('DATA: ', DATA);
         // console.log('DATA: ', DATA);
 
         setRecipeInfo(DATA);
@@ -44,11 +44,11 @@ const Result = () => {
 
 
   }, [matchedItems])
-  console.log("출력될 값", recipeInfo);
+  // console.log("출력될 값", recipeInfo);
 
 
 
-  // * recipe_id와 imgUrl 매칭
+  // * $recipe_id와 json recipe_id가 같은 imgUrl 매칭해서 이미지 불러오기
   useEffect(() => {
     const jsonIds = imgDataJson.map((item) => item.recipe_id);
     console.log('jsonIds: ', jsonIds);
@@ -57,31 +57,22 @@ const Result = () => {
     console.log('recipeIds: ', recipeIds);
 
     
-
+    // * $recipe_id 숫자로 변환해서 일치시킴 
     const matchingRecipeIds = recipeIds.filter(recipe_id => jsonIds.includes(Number(recipe_id)));
 
     console.log('matchingRecipeIds: ', matchingRecipeIds);
 
     const imgUrlObj = {};
 
+    // * json 파일의 recipe_id와 id 일치하는 imgUrl 가져오기
     matchingRecipeIds.forEach(id => {
-      // !
-      // !
-      // !
-      // !
-      
-      // ! 현재 진행 중 위치 20231215
-      const matchedRecipe = imgDataJson.find(recipe => recipe.recipe_id === recipeIds);
-      console.log('matchedRecipe: ', matchedRecipe);
-      
+      const matchedRecipe = imgDataJson.find(recipe => recipe.recipe_id === Number(id));
       if (matchedRecipe) {
         imgUrlObj[id] = matchedRecipe.imgUrl;
       }
-
     });
 
     setImgUrls(imgUrlObj)
-    console.log('imgUrlObj: ', imgUrlObj);
   }, [matchedItems])
 
 
