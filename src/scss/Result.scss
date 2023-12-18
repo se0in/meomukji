@@ -21,7 +21,6 @@
       .item-title {
         display: flex;
         gap: 20px;
-        // align-items: center;
         margin-bottom: 20px;
         .img-box {
           overflow: hidden;
@@ -40,7 +39,7 @@
           }
         }
         .text-box {
-          margin-top: clamp(4px, 10px, 2vw);
+          margin-top: clamp(4px, 10px, 1vw);
           .kind {
             display: inline-block;
             padding: 2px 5px;
