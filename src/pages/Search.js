@@ -37,8 +37,14 @@ const Search = () => {
     if (newItemText.trim() !== "") {
       // * 띄어쓰기 제거
       const textWithoutSpace = newItemText.replace(/\s/g, '');
-      // *'소고기'를 '쇠고기'로 변경
-      const correctedText = textWithoutSpace === '소고기' ? '쇠고기' : textWithoutSpace;
+
+      // * 단어 교정
+      let correctedText = textWithoutSpace;
+      if (textWithoutSpace === '소고기') {
+        correctedText = '쇠고기';
+      } else if (textWithoutSpace === '달걀') {
+        correctedText = '계란';
+      }
       setNewItemText("");
 
       // * 3개 제한
@@ -47,7 +53,7 @@ const Search = () => {
           const updatedItems = [...prevItems, correctedText.trim()];
           setItems(updatedItems);
         })
-        : alert("재료는 3개까지만 등록할 수 있어요 :( ");
+        : alert("재료는 3개까지만 등록할 수 있어요 😥");
     }
   };
 
@@ -103,7 +109,7 @@ const Search = () => {
     try {
       if (items.length === 0) {
         // * 미입력 시
-        alert("재료를 등록해주세요 :( ")
+        alert("재료를 등록해주세요 😥")
       } else {
         //  ! 데이터는 [배열{객체},{객체}]로 저장되어 있음
         const DATA = await fetchDataIngredient(items);
@@ -121,7 +127,7 @@ const Search = () => {
           // * 검색 결과 페이지로 넘기기
           navigate('/Result', { state: { matchedItems } });
         } else {
-          alert("해당 이름을 가진 재료 레시피는 없어요 :( ");
+          alert("해당 이름을 가진 재료 레시피는 없어요 😥");
           return null;
         }
       }
