@@ -13,7 +13,7 @@
     "난이도": "보통",
     "재료별 분류명": "곡류",
     "가격별 분류": "5,000원",
-    "imgUrl": "../../public/images/thumbnail/000200.jpeg",
+    "imgUrl": "/images/thumbnail/000200.jpeg",
     "상세 URL": "http://www.okdab.com/consumer/recipe/recipeView.do?recipeSn=1"
   },
   {
@@ -30,7 +30,7 @@
     "난이도": "보통",
     "재료별 분류명": "곡류",
     "가격별 분류": "3,000원",
-    "imgUrl": "http://file.okdab.com:80/UserFiles/searching/recipe/000300.jpg",
+    "imgUrl": "/images/thumbnail/000300.jpg",
     "상세 URL": "http://www.okdab.com/consumer/recipe/recipeView.do?recipeSn=2"
   },
   {
@@ -47,7 +47,7 @@
     "난이도": "보통",
     "재료별 분류명": "곡류",
     "가격별 분류": " ",
-    "imgUrl": "http://file.okdab.com:80/UserFiles/searching/recipe/000400.jpg",
+    "imgUrl": "/images/thumbnail/000400.jpg",
     "상세 URL": "http://www.okdab.com/consumer/recipe/recipeView.do?recipeSn=3"
   },
   {
@@ -64,7 +64,7 @@
     "난이도": "초보환영",
     "재료별 분류명": "곡류",
     "가격별 분류": " ",
-    "imgUrl": "http://file.okdab.com:80/UserFiles/searching/recipe/000600.jpg",
+    "imgUrl": "/images/thumbnail/000600.jpg",
     "상세 URL": "http://www.okdab.com/consumer/recipe/recipeView.do?recipeSn=4"
   },
   {
@@ -81,7 +81,7 @@
     "난이도": "보통",
     "재료별 분류명": "곡류",
     "가격별 분류": " ",
-    "imgUrl": "http://file.okdab.com:80/UserFiles/searching/recipe/000800.jpg",
+    "imgUrl": "/images/thumbnail/000800.jpg",
     "상세 URL": "http://www.okdab.com/consumer/recipe/recipeView.do?recipeSn=5"
   },
   {
@@ -98,7 +98,7 @@
     "난이도": "보통",
     "재료별 분류명": "곡류",
     "가격별 분류": " ",
-    "imgUrl": "http://file.okdab.com:80/UserFiles/searching/recipe/001300.jpg",
+    "imgUrl": "/images/thumbnail/001300.jpg",
     "상세 URL": "http://www.okdab.com/consumer/recipe/recipeView.do?recipeSn=6"
   },
   {
@@ -115,7 +115,7 @@
     "난이도": "보통",
     "재료별 분류명": " ",
     "가격별 분류": " ",
-    "imgUrl": "http://file.okdab.com:80/UserFiles/searching/recipe/001400.jpg",
+    "imgUrl": "/images/thumbnail/001400.jpg",
     "상세 URL": "http://www.okdab.com/consumer/recipe/recipeView.do?recipeSn=7"
   },
   {
@@ -132,7 +132,7 @@
     "난이도": "초보환영",
     "재료별 분류명": " ",
     "가격별 분류": " ",
-    "imgUrl": "http://file.okdab.com:80/UserFiles/searching/recipe/001600.jpg",
+    "imgUrl": "/images/thumbnail/001600.jpg",
     "상세 URL": "http://www.okdab.com/consumer/recipe/recipeView.do?recipeSn=8"
   },
   {
@@ -149,7 +149,7 @@
     "난이도": "초보환영",
     "재료별 분류명": "곡류",
     "가격별 분류": " ",
-    "imgUrl": "http://file.okdab.com:80/UserFiles/searching/recipe/001800.jpg",
+    "imgUrl": "/images/thumbnail/001800.jpg",
     "상세 URL": "http://www.okdab.com/consumer/recipe/recipeView.do?recipeSn=9"
   },
   {
@@ -166,7 +166,7 @@
     "난이도": "초보환영",
     "재료별 분류명": "밀가루",
     "가격별 분류": " ",
-    "imgUrl": "http://file.okdab.com:80/UserFiles/searching/recipe/001900.jpg",
+    "imgUrl": "/images/thumbnail/001900.jpg",
     "상세 URL": "http://www.okdab.com/consumer/recipe/recipeView.do?recipeSn=10"
   },
   {

@@ -86,7 +86,9 @@ const Result = () => {
 
               <div className="item-title">
                 <div className="img-box">
-                  <img src={imgUrls[item.$recipe_id]} alt={item.$recipe_name} />
+                  <img 
+                  src={process.env.PUBLIC_URL +  imgUrls[item.$recipe_id]} 
+                  alt={item.$recipe_name} />
                 </div>
                 <div className="text-box">
                   <span className='kind'>{item.$kind}</span>
