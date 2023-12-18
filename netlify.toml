@@ -3,3 +3,8 @@
   to = "http://211.237.50.150:7080/openapi/:splat"  
   status = 200
   force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
