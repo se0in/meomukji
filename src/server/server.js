@@ -65,10 +65,12 @@ export const fetchDataBasic = async (id) => {
       * const responses = await Promise.all(urls.map(url => axios.get(url))); */
 
       const response = await axios.get(url);
+      console.log('url: ', url);
 
       if (response.status === 200) {
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(response.data, "text/xml");
+        console.log('xmlDoc: ', xmlDoc);
         
         const extractData = (tagName) => Array.from(xmlDoc.querySelectorAll(tagName)).map((item) => item.textContent);
 
@@ -153,6 +155,7 @@ export const fetchDataIngredient = async () => {
       * const responses = await Promise.all(urls.map(url => axios.get(url))); */
 
       const response = await axios.get(url);
+      console.log('url: ', url);
 
       if (response.status === 200) {
         const parser = new DOMParser();
