@@ -19,7 +19,6 @@ const Result = () => {
 
   // * 이전 페이지(검색)에서 받아온 정보들
   const matchedItems = location.state.matchedItems;
-  console.log('matchedItems: ', matchedItems);
   const [imgUrls, setImgUrls] = useState({}); // * json이미지 url
 
   // * 데이터 받아오기

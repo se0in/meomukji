@@ -31,7 +31,7 @@ function App() {
           <Route path='/Heart' element={<Heart />} />
           <Route path='/Search' element={<Search />} />
           <Route path='/Result' element={<Result />} />
-          <Route path='/Detail' element={<Detail />} />
+          <Route path='/Detail/:id' element={<Detail />} />
         </Routes>
       </div>
       {
