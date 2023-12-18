@@ -64,7 +64,7 @@ export const fetchDataBasic = async (id) => {
       * for로 순차적 : 차례로 요청
       * const responses = await Promise.all(urls.map(url => axios.get(url))); */
 
-      const response = await axios.get(`${proxy}/${url}`);
+      const response = await axios.get(`${proxy}${url}`);
 
       if (response.status === 200) {
         const parser = new DOMParser();
@@ -152,7 +152,7 @@ export const fetchDataIngredient = async () => {
       * for로 순차적 : 차례로 요청
       * const responses = await Promise.all(urls.map(url => axios.get(url))); */
 
-      const response = await axios.get(`${proxy}/${url}`);
+      const response = await axios.get(`${proxy}${url}`);
 
       if (response.status === 200) {
         const parser = new DOMParser();
@@ -235,7 +235,7 @@ export const ResultIngredient = async (id) => {
       * for로 순차적 : 차례로 요청
       * const responses = await Promise.all(urls.map(url => axios.get(url))); */
 
-      const response = await axios.get(`${proxy}/${url}`);
+      const response = await axios.get(`${proxy}${url}`);
 
       if (response.status === 200) {
         const parser = new DOMParser();
