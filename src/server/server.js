@@ -44,7 +44,7 @@ export const fetchDataBasic = async (id) => {
 
   const urls = [
     // ! 주석 잊지말 것 : 재료 정보에는 레시피 이름이 나오지 않음
-    `openapi/${API_KEY}/xml/Grid_20150827000000000226_1/1/1000`,
+    `/openapi/${API_KEY}/xml/Grid_20150827000000000226_1/1/1000`,
     // `openapi/${API_KEY}/xml/Grid_20150827000000000226_1/1001/2000`,
     // `openapi/${API_KEY}/xml/Grid_20150827000000000226_1/2001/3000`,
     // `openapi/${API_KEY}/xml/Grid_20150827000000000226_1/3001/4000`,
