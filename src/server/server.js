@@ -36,15 +36,16 @@ const extractData = (xmlDoc, tagName) => {
   if (!xmlDoc) return null;
   return Array.from(xmlDoc.querySelectorAll(tagName)).map((item) => item.textContent);
 }; */
-const proxy = window.location.hostname === 'localhost' ? '' : '/proxy';
 
+const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
+console.log('PROXY: ', PROXY);
 
 // * 레시피 기본 정보 26 fetchDataBasic
 export const fetchDataBasic = async (id) => {
 
-  const urls = [
+  const URLS = [
     // ! 주석 잊지말 것 : 재료 정보에는 레시피 이름이 나오지 않음
-    `${proxy}/openapi/${API_KEY}/xml/Grid_20150827000000000226_1/1/1000`,
+    `openapi/${API_KEY}/xml/Grid_20150827000000000226_1/1/1000`,
     // `openapi/${API_KEY}/xml/Grid_20150827000000000226_1/1001/2000`,
     // `openapi/${API_KEY}/xml/Grid_20150827000000000226_1/2001/3000`,
     // `openapi/${API_KEY}/xml/Grid_20150827000000000226_1/3001/4000`,
@@ -57,20 +58,19 @@ export const fetchDataBasic = async (id) => {
     // * 검색 결과 데이터 담을 빈 배열
     let combinedData = [];
 
-    for (const url of urls) {
+    for (const URL of URLS) {
       /* 
       ! 주석 지우지 말 것
       * Promise.all : 한번에 요청 -> 요청 시간 최적화, 서버 부하 가능성 있음
       * for로 순차적 : 차례로 요청
       * const responses = await Promise.all(urls.map(url => axios.get(url))); */
 
-      const response = await axios.get(url);
-      console.log('url: ', url);
+      const response = await axios.get(`${PROXY}${URL}`);
+      console.log('response: ', response);
 
       if (response.status === 200) {
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(response.data, "text/xml");
-        console.log('xmlDoc: ', xmlDoc);
         
         const extractData = (tagName) => Array.from(xmlDoc.querySelectorAll(tagName)).map((item) => item.textContent);
 
@@ -129,9 +129,9 @@ export const fetchDataIngredient = async () => {
   * 마지막 IRDNT_SN : 195459
   */
 
-  const urls = [
+  const URLS = [
     // ! 주석 잊지말 것 : 재료 정보에는 레시피 이름이 나오지 않음
-    `${proxy}/openapi/${API_KEY}/xml/Grid_20150827000000000227_1/1/1000`,
+    `openapi/${API_KEY}/xml/Grid_20150827000000000227_1/1/1000`,
     // `openapi/${API_KEY}/xml/Grid_20150827000000000227_1/1001/2000`,
     // `openapi/${API_KEY}/xml/Grid_20150827000000000227_1/2001/3000`,
     // `openapi/${API_KEY}/xml/Grid_20150827000000000227_1/3001/4000`,
@@ -147,15 +147,15 @@ export const fetchDataIngredient = async () => {
     let combinedRecipeIds = []; 
 
 
-    for (const url of urls) {
+    for (const URL of URLS) {
       /* 
       ! 주석 지우지 말 것
       * Promise.all : 한번에 요청 -> 요청 시간 최적화, 서버 부하 가능성 있음
       * for로 순차적 : 차례로 요청
       * const responses = await Promise.all(urls.map(url => axios.get(url))); */
 
-      const response = await axios.get(url);
-      console.log('url: ', url);
+      const response = await axios.get(`${PROXY}${URL}`);
+      console.log('response: ', response);
 
       if (response.status === 200) {
         const parser = new DOMParser();
@@ -213,9 +213,9 @@ export const ResultIngredient = async (id) => {
   * 마지막 IRDNT_SN : 195459
   */
 
-  const urls = [
+  const URLS = [
     // ! 주석 잊지말 것 : 재료 정보에는 레시피 이름이 나오지 않음
-    `${proxy}/openapi/${API_KEY}/xml/Grid_20150827000000000227_1/1/1000`,
+    `openapi/${API_KEY}/xml/Grid_20150827000000000227_1/1/1000`,
     // `openapi/${API_KEY}/xml/Grid_20150827000000000227_1/1001/2000`,
     // `openapi/${API_KEY}/xml/Grid_20150827000000000227_1/2001/3000`,
     // `openapi/${API_KEY}/xml/Grid_20150827000000000227_1/3001/4000`,
@@ -231,14 +231,15 @@ export const ResultIngredient = async (id) => {
     let combinedRecipeIds = []; 
 
 
-    for (const url of urls) {
+    for (const URL of URLS) {
       /* 
       ! 주석 지우지 말 것
       * Promise.all : 한번에 요청 -> 요청 시간 최적화, 서버 부하 가능성 있음
       * for로 순차적 : 차례로 요청
       * const responses = await Promise.all(urls.map(url => axios.get(url))); */
 
-      const response = await axios.get(url);
+      const response = await axios.get(`${PROXY}${URL}`);
+      console.log('response: ', response);
 
       if (response.status === 200) {
         const parser = new DOMParser();
