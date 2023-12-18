@@ -40,17 +40,17 @@ const extractData = (xmlDoc, tagName) => {
 
 // * 레시피 기본 정보 26 fetchDataBasic
 export const fetchDataBasic = async (id) => {
-  const PROXY = window.location.hostname === 'localhost' ? '' : 'http://211.237.50.150:7080/proxy';
+  const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy/';
 
   const URLS = [
     // ! 주석 잊지말 것 : 재료 정보에는 레시피 이름이 나오지 않음
-    `${PROXY}/openapi/${API_KEY}/xml/Grid_20150827000000000226_1/1/1000`,
-    // `openapi/${API_KEY}/xml/Grid_20150827000000000226_1/1001/2000`,
-    // `openapi/${API_KEY}/xml/Grid_20150827000000000226_1/2001/3000`,
-    // `openapi/${API_KEY}/xml/Grid_20150827000000000226_1/3001/4000`,
-    // `openapi/${API_KEY}/xml/Grid_20150827000000000226_1/4001/5000`,
-    // `openapi/${API_KEY}/xml/Grid_20150827000000000226_1/5001/6000`,
-    // `openapi/${API_KEY}/xml/Grid_20150827000000000226_1/6001/6140`
+    `/${API_KEY}/xml/Grid_20150827000000000226_1/1/1000`,
+    // `/${API_KEY}/xml/Grid_20150827000000000226_1/1001/2000`,
+    // `/${API_KEY}/xml/Grid_20150827000000000226_1/2001/3000`,
+    // `/${API_KEY}/xml/Grid_20150827000000000226_1/3001/4000`,
+    // `/${API_KEY}/xml/Grid_20150827000000000226_1/4001/5000`,
+    // `/${API_KEY}/xml/Grid_20150827000000000226_1/5001/6000`,
+    // `/${API_KEY}/xml/Grid_20150827000000000226_1/6001/6140`
   ]
 
   try {
@@ -64,8 +64,7 @@ export const fetchDataBasic = async (id) => {
       * for로 순차적 : 차례로 요청
       * const responses = await Promise.all(urls.map(url => axios.get(url))); */
 
-      const response = await axios.get(URL);
-      console.log('response: ', response);
+      const response = await axios.get(`${PROXY}${URL}`);
 
       if (response.status === 200) {
         const parser = new DOMParser();
@@ -127,16 +126,16 @@ export const fetchDataIngredient = async () => {
   * 마지막 레시피 id : 19543
   * 마지막 IRDNT_SN : 195459
   */
-  const PROXY = window.location.hostname === 'localhost' ? '' : 'http://211.237.50.150:7080/proxy';
+  const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy/';
   const URLS = [
     // ! 주석 잊지말 것 : 재료 정보에는 레시피 이름이 나오지 않음
-    `${PROXY}/openapi/${API_KEY}/xml/Grid_20150827000000000227_1/1/1000`,
-    // `openapi/${API_KEY}/xml/Grid_20150827000000000227_1/1001/2000`,
-    // `openapi/${API_KEY}/xml/Grid_20150827000000000227_1/2001/3000`,
-    // `openapi/${API_KEY}/xml/Grid_20150827000000000227_1/3001/4000`,
-    // `openapi/${API_KEY}/xml/Grid_20150827000000000227_1/4001/5000`,
-    // `openapi/${API_KEY}/xml/Grid_20150827000000000227_1/5001/6000`,
-    // `openapi/${API_KEY}/xml/Grid_20150827000000000227_1/6001/6140`
+    `/${API_KEY}/xml/Grid_20150827000000000227_1/1/1000`,
+    // `/${API_KEY}/xml/Grid_20150827000000000227_1/1001/2000`,
+    // `/${API_KEY}/xml/Grid_20150827000000000227_1/2001/3000`,
+    // `/${API_KEY}/xml/Grid_20150827000000000227_1/3001/4000`,
+    // `/${API_KEY}/xml/Grid_20150827000000000227_1/4001/5000`,
+    // `/${API_KEY}/xml/Grid_20150827000000000227_1/5001/6000`,
+    // `/${API_KEY}/xml/Grid_20150827000000000227_1/6001/6140`
   ]
 
   try {
@@ -153,8 +152,7 @@ export const fetchDataIngredient = async () => {
       * for로 순차적 : 차례로 요청
       * const responses = await Promise.all(urls.map(url => axios.get(url))); */
 
-      const response = await axios.get(URL);
-      console.log('response: ', response);
+      const response = await axios.get(`${PROXY}${URL}`);
 
       if (response.status === 200) {
         const parser = new DOMParser();
@@ -202,7 +200,7 @@ export const fetchDataIngredient = async () => {
 
 // * 검색 결과 재료 데이터
 export const ResultIngredient = async (id) => {
-  const PROXY = window.location.hostname === 'localhost' ? '' : 'http://211.237.50.150:7080/proxy';
+  const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy/';
   // * 데이터 요청종료위치 지원 최대 1000 -> 모두 불러오기
   /* 
   ! 개수
@@ -214,13 +212,13 @@ export const ResultIngredient = async (id) => {
 
   const URLS = [
     // ! 주석 잊지말 것 : 재료 정보에는 레시피 이름이 나오지 않음
-    `${PROXY}/openapi/${API_KEY}/xml/Grid_20150827000000000227_1/1/1000`,
-    // `openapi/${API_KEY}/xml/Grid_20150827000000000227_1/1001/2000`,
-    // `openapi/${API_KEY}/xml/Grid_20150827000000000227_1/2001/3000`,
-    // `openapi/${API_KEY}/xml/Grid_20150827000000000227_1/3001/4000`,
-    // `openapi/${API_KEY}/xml/Grid_20150827000000000227_1/4001/5000`,
-    // `openapi/${API_KEY}/xml/Grid_20150827000000000227_1/5001/6000`,
-    // `openapi/${API_KEY}/xml/Grid_20150827000000000227_1/6001/6140`
+    `/${API_KEY}/xml/Grid_20150827000000000227_1/1/1000`,
+    // `/${API_KEY}/xml/Grid_20150827000000000227_1/1001/2000`,
+    // `/${API_KEY}/xml/Grid_20150827000000000227_1/2001/3000`,
+    // `/${API_KEY}/xml/Grid_20150827000000000227_1/3001/4000`,
+    // `/${API_KEY}/xml/Grid_20150827000000000227_1/4001/5000`,
+    // `/${API_KEY}/xml/Grid_20150827000000000227_1/5001/6000`,
+    // `/${API_KEY}/xml/Grid_20150827000000000227_1/6001/6140`
   ]
 
   try {
@@ -237,8 +235,7 @@ export const ResultIngredient = async (id) => {
       * for로 순차적 : 차례로 요청
       * const responses = await Promise.all(urls.map(url => axios.get(url))); */
 
-      const response = await axios.get(URL);
-      console.log('response: ', response);
+      const response = await axios.get(`${PROXY}${URL}`);
 
       if (response.status === 200) {
         const parser = new DOMParser();
@@ -285,7 +282,7 @@ export const ResultIngredient = async (id) => {
 
 // * 레시피 과정 정보 28 fetchDataCourse
 /* const fetchDataCourse = async () => {
-  const url = `openapi/${API_KEY}/xml/Grid_20150827000000000228_1/1/5`;
+  const url = `/${API_KEY}/xml/Grid_20150827000000000228_1/1/5`;
   const xmlDoc = await fetchData(url);
   const RECIPE_NM_KO = extractData(xmlDoc, 'RECIPE_NM_KO');
   console.log('RECIPE_NM_KO: ', RECIPE_NM_KO);
