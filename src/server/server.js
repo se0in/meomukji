@@ -112,26 +112,6 @@ export const fetchDataBasic = async (id) => {
 };
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // * 레시피 재료 정보 27 fetchDataIngredient
 export const fetchDataIngredient = async () => {
 
@@ -188,7 +168,6 @@ export const fetchDataIngredient = async () => {
             $recipe_id: $recipe_id[i],
           });
         }
-        // console.log('combinedData From server.js: ', combinedData);
         
         // * 레시피 ID 모음
         combinedRecipeIds = combinedRecipeIds.concat($recipe_id);
@@ -272,7 +251,6 @@ export const ResultIngredient = async (id) => {
             $recipe_id: $recipe_id[i],
           });
         }
-        // console.log('combinedData From server.js: ', combinedData);
         
         // * 레시피 ID 모음
         combinedRecipeIds = combinedRecipeIds.concat($recipe_id);
@@ -284,7 +262,6 @@ export const ResultIngredient = async (id) => {
     }
 
     const filterData = combinedData.filter(item => id.includes(item.$recipe_id))
-    // console.log('일치하는 데이터만 가져오기: ', filterData);
     return filterData;
 
   } catch (error) {

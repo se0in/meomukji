@@ -36,11 +36,6 @@ const Result = () => {
     };
     fetchDataIngredient();
 
-
-
-
-
-
     // * 재료 정보 데이터
     const fetchRecipeBasicInfo = async () => {
       try {
@@ -54,12 +49,6 @@ const Result = () => {
     };
     fetchRecipeBasicInfo();
   }, [matchedItems]);
-
-
-
-
-
-
 
   // * $recipe_id와 json recipe_id가 같은 imgUrl 매칭해서 이미지 불러오기
   useEffect(() => {
@@ -120,22 +109,38 @@ const Result = () => {
                 {/* // * 검색 결과 className point-color */}
                 <p className="ingredient">
                   재료
-                  {
-                    // * 이전 페이지(Search)에서 등록한 아이템 먼저 출력 + 포인트 컬러 */}
-                    ingredient
-                    .filter((i)=> i.$recipe_id === item.$recipe_id)
+                  {/* // * 검색어 등록한 재료 먼저 출력 */}
+                  {ingredient
+                    .filter((i) =>
+                      matchedItems.some(
+                        (searchItem) =>
+                          searchItem.$ingredient_name === i.$ingredient_name
+                      ) &&
+                      i.$recipe_id === item.$recipe_id
+                    )
                     .map((recipeIngredient) => (
                       <span
-                      key={recipeIngredient.$ingredient_name}
-                      className={
-                        matchedItems.some(
-                          (searchItem) =>
-                          searchItem.$ingredient_name === recipeIngredient.$ingredient_name
-                        ) ? 'point-color' : ''}>
+                        key={recipeIngredient.$ingredient_name}
+                        className="point-color"
+                      >
                         {recipeIngredient.$ingredient_name}
                       </span>
-                    ))
-                  }
+                    ))}
+
+                  {/* // * 검색어 등록한 재료 먼저 출력 후 그 외 재료 출력 */}
+                  {ingredient
+                    .filter((i) =>
+                      !matchedItems.some(
+                        (searchItem) =>
+                          searchItem.$ingredient_name === i.$ingredient_name
+                      ) &&
+                      i.$recipe_id === item.$recipe_id
+                    )
+                    .map((recipeIngredient) => (
+                      <span key={recipeIngredient.$ingredient_name}>
+                        {recipeIngredient.$ingredient_name}
+                      </span>
+                    ))}
                 </p>
               </div>
             </BorderRadiusBox>
