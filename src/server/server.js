@@ -44,7 +44,7 @@ export const fetchDataBasic = async (id) => {
 
   const urls = [
     // ! 주석 잊지말 것 : 재료 정보에는 레시피 이름이 나오지 않음
-    `/openapi/${API_KEY}/xml/Grid_20150827000000000226_1/1/1000`,
+    `${proxy}/openapi/${API_KEY}/xml/Grid_20150827000000000226_1/1/1000`,
     // `openapi/${API_KEY}/xml/Grid_20150827000000000226_1/1001/2000`,
     // `openapi/${API_KEY}/xml/Grid_20150827000000000226_1/2001/3000`,
     // `openapi/${API_KEY}/xml/Grid_20150827000000000226_1/3001/4000`,
@@ -64,7 +64,7 @@ export const fetchDataBasic = async (id) => {
       * for로 순차적 : 차례로 요청
       * const responses = await Promise.all(urls.map(url => axios.get(url))); */
 
-      const response = await axios.get(`${proxy}${url}`);
+      const response = await axios.get(url);
 
       if (response.status === 200) {
         const parser = new DOMParser();
@@ -129,7 +129,7 @@ export const fetchDataIngredient = async () => {
 
   const urls = [
     // ! 주석 잊지말 것 : 재료 정보에는 레시피 이름이 나오지 않음
-    `openapi/${API_KEY}/xml/Grid_20150827000000000227_1/1/1000`,
+    `${proxy}/openapi/${API_KEY}/xml/Grid_20150827000000000227_1/1/1000`,
     // `openapi/${API_KEY}/xml/Grid_20150827000000000227_1/1001/2000`,
     // `openapi/${API_KEY}/xml/Grid_20150827000000000227_1/2001/3000`,
     // `openapi/${API_KEY}/xml/Grid_20150827000000000227_1/3001/4000`,
@@ -152,7 +152,7 @@ export const fetchDataIngredient = async () => {
       * for로 순차적 : 차례로 요청
       * const responses = await Promise.all(urls.map(url => axios.get(url))); */
 
-      const response = await axios.get(`${proxy}${url}`);
+      const response = await axios.get(url);
 
       if (response.status === 200) {
         const parser = new DOMParser();
@@ -212,7 +212,7 @@ export const ResultIngredient = async (id) => {
 
   const urls = [
     // ! 주석 잊지말 것 : 재료 정보에는 레시피 이름이 나오지 않음
-    `openapi/${API_KEY}/xml/Grid_20150827000000000227_1/1/1000`,
+    `${proxy}/openapi/${API_KEY}/xml/Grid_20150827000000000227_1/1/1000`,
     // `openapi/${API_KEY}/xml/Grid_20150827000000000227_1/1001/2000`,
     // `openapi/${API_KEY}/xml/Grid_20150827000000000227_1/2001/3000`,
     // `openapi/${API_KEY}/xml/Grid_20150827000000000227_1/3001/4000`,
@@ -235,7 +235,7 @@ export const ResultIngredient = async (id) => {
       * for로 순차적 : 차례로 요청
       * const responses = await Promise.all(urls.map(url => axios.get(url))); */
 
-      const response = await axios.get(`${proxy}${url}`);
+      const response = await axios.get(url);
 
       if (response.status === 200) {
         const parser = new DOMParser();
