@@ -8,6 +8,8 @@ import axios from "axios";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
+
+
 // * 데이터 불러오기
 // const fetchData = async (url) => {
 //   try {
@@ -34,6 +36,7 @@ const extractData = (xmlDoc, tagName) => {
   if (!xmlDoc) return null;
   return Array.from(xmlDoc.querySelectorAll(tagName)).map((item) => item.textContent);
 }; */
+const proxy = window.location.hostname === 'localhost' ? '' : '/proxy';
 
 
 // * 레시피 기본 정보 26 fetchDataBasic
@@ -61,7 +64,7 @@ export const fetchDataBasic = async (id) => {
       * for로 순차적 : 차례로 요청
       * const responses = await Promise.all(urls.map(url => axios.get(url))); */
 
-      const response = await axios.get(url);
+      const response = await axios.get(`${proxy}/${url}`);
 
       if (response.status === 200) {
         const parser = new DOMParser();
@@ -149,7 +152,7 @@ export const fetchDataIngredient = async () => {
       * for로 순차적 : 차례로 요청
       * const responses = await Promise.all(urls.map(url => axios.get(url))); */
 
-      const response = await axios.get(url);
+      const response = await axios.get(`${proxy}/${url}`);
 
       if (response.status === 200) {
         const parser = new DOMParser();
@@ -232,7 +235,7 @@ export const ResultIngredient = async (id) => {
       * for로 순차적 : 차례로 요청
       * const responses = await Promise.all(urls.map(url => axios.get(url))); */
 
-      const response = await axios.get(url);
+      const response = await axios.get(`${proxy}/${url}`);
 
       if (response.status === 200) {
         const parser = new DOMParser();
