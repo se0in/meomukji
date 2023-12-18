@@ -37,15 +37,14 @@ const extractData = (xmlDoc, tagName) => {
   return Array.from(xmlDoc.querySelectorAll(tagName)).map((item) => item.textContent);
 }; */
 
-const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
-console.log('PROXY: ', PROXY);
 
 // * 레시피 기본 정보 26 fetchDataBasic
 export const fetchDataBasic = async (id) => {
+  const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
 
   const URLS = [
     // ! 주석 잊지말 것 : 재료 정보에는 레시피 이름이 나오지 않음
-    `/openapi/${API_KEY}/xml/Grid_20150827000000000226_1/1/1000`,
+    `${PROXY}/openapi/${API_KEY}/xml/Grid_20150827000000000226_1/1/1000`,
     // `openapi/${API_KEY}/xml/Grid_20150827000000000226_1/1001/2000`,
     // `openapi/${API_KEY}/xml/Grid_20150827000000000226_1/2001/3000`,
     // `openapi/${API_KEY}/xml/Grid_20150827000000000226_1/3001/4000`,
@@ -65,7 +64,7 @@ export const fetchDataBasic = async (id) => {
       * for로 순차적 : 차례로 요청
       * const responses = await Promise.all(urls.map(url => axios.get(url))); */
 
-      const response = await axios.get(`${PROXY}${URL}`);
+      const response = await axios.get(URL);
       console.log('response: ', response);
 
       if (response.status === 200) {
@@ -128,10 +127,10 @@ export const fetchDataIngredient = async () => {
   * 마지막 레시피 id : 19543
   * 마지막 IRDNT_SN : 195459
   */
-
+  const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
   const URLS = [
     // ! 주석 잊지말 것 : 재료 정보에는 레시피 이름이 나오지 않음
-    `/openapi/${API_KEY}/xml/Grid_20150827000000000227_1/1/1000`,
+    `${PROXY}/openapi/${API_KEY}/xml/Grid_20150827000000000227_1/1/1000`,
     // `openapi/${API_KEY}/xml/Grid_20150827000000000227_1/1001/2000`,
     // `openapi/${API_KEY}/xml/Grid_20150827000000000227_1/2001/3000`,
     // `openapi/${API_KEY}/xml/Grid_20150827000000000227_1/3001/4000`,
@@ -154,7 +153,7 @@ export const fetchDataIngredient = async () => {
       * for로 순차적 : 차례로 요청
       * const responses = await Promise.all(urls.map(url => axios.get(url))); */
 
-      const response = await axios.get(`${PROXY}${URL}`);
+      const response = await axios.get(URL);
       console.log('response: ', response);
 
       if (response.status === 200) {
@@ -203,7 +202,7 @@ export const fetchDataIngredient = async () => {
 
 // * 검색 결과 재료 데이터
 export const ResultIngredient = async (id) => {
-
+  const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
   // * 데이터 요청종료위치 지원 최대 1000 -> 모두 불러오기
   /* 
   ! 개수
@@ -215,7 +214,7 @@ export const ResultIngredient = async (id) => {
 
   const URLS = [
     // ! 주석 잊지말 것 : 재료 정보에는 레시피 이름이 나오지 않음
-    `/openapi/${API_KEY}/xml/Grid_20150827000000000227_1/1/1000`,
+    `${PROXY}/openapi/${API_KEY}/xml/Grid_20150827000000000227_1/1/1000`,
     // `openapi/${API_KEY}/xml/Grid_20150827000000000227_1/1001/2000`,
     // `openapi/${API_KEY}/xml/Grid_20150827000000000227_1/2001/3000`,
     // `openapi/${API_KEY}/xml/Grid_20150827000000000227_1/3001/4000`,
@@ -238,7 +237,7 @@ export const ResultIngredient = async (id) => {
       * for로 순차적 : 차례로 요청
       * const responses = await Promise.all(urls.map(url => axios.get(url))); */
 
-      const response = await axios.get(`${PROXY}${URL}`);
+      const response = await axios.get(URL);
       console.log('response: ', response);
 
       if (response.status === 200) {
