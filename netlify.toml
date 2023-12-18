@@ -1,5 +1,6 @@
 [[redirects]]
 from = "/proxy/*"
-  to = "http://211.237.50.150:7080/:splat"  
+  to = "https://seoin-meomukji.netlify.app/:splat"  
   status = 200
   force = true
+
