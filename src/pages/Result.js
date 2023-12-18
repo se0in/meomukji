@@ -118,9 +118,9 @@ const Result = () => {
                       ) &&
                       i.$recipe_id === item.$recipe_id
                     )
-                    .map((recipeIngredient) => (
+                    .map((recipeIngredient, index) => (
                       <span
-                        key={recipeIngredient.$ingredient_name}
+                        key={index}
                         className="point-color"
                       >
                         {recipeIngredient.$ingredient_name}
@@ -136,8 +136,8 @@ const Result = () => {
                       ) &&
                       i.$recipe_id === item.$recipe_id
                     )
-                    .map((recipeIngredient) => (
-                      <span key={recipeIngredient.$ingredient_name}>
+                    .map((recipeIngredient, index) => (
+                      <span key={index}>
                         {recipeIngredient.$ingredient_name}
                       </span>
                     ))}
