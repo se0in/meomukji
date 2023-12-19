@@ -13,6 +13,7 @@ import { BorderRadiusBox, PageTitle } from "../styled-components/Styled";
 import "../scss/Result.scss";
 
 const Result = () => {
+  
   const location = useLocation();
   const [recipeInfo, setRecipeInfo] = useState([]);
   const [ingredient, setIngredient] = useState([]);
@@ -80,7 +81,7 @@ const Result = () => {
       <div className="list-box">
         {/* // * 반복 돌릴 것 : Link */}
         {recipeInfo.map((item) => (
-          <Link to={`/Detail/${item.$recipe_id}`} key={item.$recipe_id}>
+          <Link to={`/Detail/${item.$recipe_id}`} key={item.$recipe_id} recipe_id={item.$recipe_id}>
             <BorderRadiusBox className="list">
               {/* // * 아이템 타이틀 */}
 
