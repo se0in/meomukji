@@ -28,9 +28,7 @@ const SearchIngredient = () => {
       items.length < 3 ?
       setItems(prevItems => {
         const updatedItems = [...prevItems, newItemText.trim()];
-        console.log('등록된 아이템:', updatedItems); // 등록된 아이템 콘솔에 출력
         setItems(updatedItems);
-        // return updatedItems;
       }) :
       alert("재료는 3개까지만 등록할 수 있어요 :( ");
     }

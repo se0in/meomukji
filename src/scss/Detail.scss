@@ -1,17 +1,30 @@
 @import './$_variables.scss';
 
 .Detail {
+  .kind {
+    display: inline-block;
+    padding: 2px 5px;
+    margin-right: 8px;
+    vertical-align: 4px;
+    border-radius: 10px;
+    background-color: $point-color-orange;
+    color : #fff;
+    font-size: 12px;
+  }
   .bubble {
     padding: 20px;
     box-sizing: border-box;
     border-radius: 20px;
 
     .img-box {
+      overflow: hidden;
       width: 100%;
-      height: 200px;
+      // max-width: 400px;
+      height: 50vw;
+      max-height: 350px;
+      margin: 0 auto;
       border-radius: 20px;
       border: $box-border;
-      overflow: hidden;
 
       img {
         width: 100%;
@@ -19,23 +32,44 @@
         object-fit: cover;
       }
     }
+
     .desc {
       margin-top: 10px;
+
       .desc-item {
         padding: 20px 0;
+
         &.ingredient {
           border-bottom: $box-border;
         }
+
         h3 {
           margin-bottom: 15px;
           color: $sub-text-color;
           font-weight: 400;
         }
+
         .list {
+          display: flex;
+          flex-wrap: wrap;
+          column-gap: 5px;
+          row-gap: 2px;
+
+          .ingredient {
+            &:last-child {
+              .rest {
+                display: none;
+              }
+            }
+          }
+
           .procedure {
             display: flex;
             gap: 10px;
             margin: 16px 0 20px;
+            p {
+              line-height: 1.5;
+            }
           }
         }
       }

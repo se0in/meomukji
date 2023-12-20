@@ -105,7 +105,6 @@ export const fetchDataBasic = async (id) => {
     }
 
     const filterData = combinedData.filter(item => id.includes(item.$recipe_id))
-    // console.log('일치하는 데이터만 가져오기: ', filterData);
     return filterData;
 
   } catch (error) {
@@ -354,9 +353,8 @@ export const fetchDataCourse = async (id) => {
       }
     }
 
-    const filterData = combinedData.filter(item => id.includes(item.$recipe_id))
+    const filterData = combinedData.filter(item => id === item.$recipe_id)
     return filterData;
-    
 
   } catch (error) {
     console.error('에러:', error);

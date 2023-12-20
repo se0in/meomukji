@@ -84,7 +84,6 @@ const Result = () => {
           <Link to={`/Detail/${item.$recipe_id}`} key={item.$recipe_id} recipe_id={item.$recipe_id}>
             <BorderRadiusBox className="list">
               {/* // * 아이템 타이틀 */}
-
               <div className="item-title">
                 <div className="img-box">
                   <img 
