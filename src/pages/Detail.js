@@ -80,51 +80,63 @@ const Detail = () => {
 
   return (
     <div className='Detail'>
-      {recipeBasic && recipeBasic.map((item) => 
-      <PageTitle key={item.$recipe_id}>
-        <span className='kind'>{item.$kind}</span>
-        {item.$recipe_name}
-        <span>{item.$desc}</span>
-      </PageTitle>
-      )}
-      <BorderRadiusBox className='bubble'>
-        <div className="img-box">
-          <img
-            src={process.env.PUBLIC_URL + imgUrls[id]}
-            alt={imgUrls.recipe_name}
-          />
-        </div>
-        <div className="desc">
-          {/* // * 재료 */}
-          <div className="desc-item ingredient">
-            <h3>재료</h3>
-            <div className='list'>
-              {recipeIngredient &&
-                recipeIngredient.map((item, idx) => (
-                  <p key={idx} className='ingredient'>{item.$ingredient_name} {item.$ingredient_Volume}
-                    <span className='rest'>,</span>
-                  </p>
-                ))
-              }
+      {recipeBasic && recipeBasic.map((basic) =>
+        <div key={basic.$recipe_id}>
+          <PageTitle>
+            <span className='kind'>{basic.$kind}</span>
+            {basic.$recipe_name}
+            <span>{basic.$desc}</span>
+          </PageTitle>
+          <BorderRadiusBox className='bubble'>
+            <div className="img-box">
+              <img
+                src={process.env.PUBLIC_URL + imgUrls[id]}
+                alt={imgUrls.recipe_name}
+              />
             </div>
-          </div>
-
-          {/* // * 조리 과정 */}
-          <div className="desc-item">
-            <h3>조리 과정</h3>
-            {/* // *반복될 영역 : list */}
-            {recipeDetail &&
-              recipeDetail.map((item, idx) => (
-                <div className='list' key={idx}>
-                  <div className="procedure">
-                    <span className='number'>{item.$cooking_num}</span>
-                    <p>{item.$cooking_desc}</p>
-                  </div>
+            <div className="desc">
+              {/* // * 정보 */}
+              <div className="desc-item">
+                <h3> 정보</h3>
+                <div className='list info'>
+                  <p><span>칼로리</span>{basic.$kcal}</p>
+                  <p><span>분량</span>{basic.$qnt}</p>
+                  <p><span>조리시간</span>{basic.$cook_time}</p>
+                  <p><span>난이도</span>{basic.$level}</p>
                 </div>
-              ))}
-          </div>
+              </div>
+              {/* // * 재료 */}
+              <div className="desc-item">
+                <h3>재료</h3>
+                <div className='list ingredient-list'>
+                  {recipeIngredient &&
+                    recipeIngredient.map((item, idx) => (
+                      <p key={idx} className='ingredient'>{item.$ingredient_name} {item.$ingredient_Volume}
+                        <span className='rest'>,</span>
+                      </p>
+                    ))
+                  }
+                </div>
+              </div>
+
+              {/* // * 조리 과정 */}
+              <div className="desc-item">
+                <h3>조리 과정</h3>
+                {/* // *반복될 영역 : list */}
+                {recipeDetail &&
+                  recipeDetail.map((item, idx) => (
+                    <div className='list' key={idx}>
+                      <div className="procedure">
+                        <span className='number'>{item.$cooking_num}</span>
+                        <p>{item.$cooking_desc}</p>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            </div>
+          </BorderRadiusBox>
         </div>
-      </BorderRadiusBox>
+      )}
     </div>
   )
 }
