@@ -18,6 +18,7 @@ import {
 } from "../styled-components/Styled";
 import "../scss/Search.scss";
 import { IoIosArrowDown } from "react-icons/io";
+import { preparing } from '../function/Function';
 
 const Search = () => {
   const navigate = useNavigate()
@@ -214,7 +215,9 @@ const Search = () => {
           {/* // * more-btn active 시 svg rotate / 취소하기 */}
           <div
           className={`more-btn ${isShowFilter ? "active" : ""}`}
-          onClick={moreShow}>
+          // onClick={moreShow}
+          onClick={preparing}
+          >
             <button>
               {`${!isShowFilter ? "더보기" : "취소"}`}
               <IoIosArrowDown />

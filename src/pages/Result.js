@@ -4,7 +4,7 @@
  * * 검색 결과
  * * 추후 로그인 시에만 전체 리스트 볼 수 있도록 설계
  * */
-
+// TODO 검색 결과 중복되는 것이 상단에 오도록!
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ResultIngredient, fetchDataBasic } from "../server/server";
@@ -41,7 +41,6 @@ const Result = () => {
       try {
         const DATA = await ResultIngredient(id);
         setIngredient(DATA);
-
 
       } catch (error) {
         console.error("데이터를 불러오는 중에 에러가 발생했습니다. : ", error);

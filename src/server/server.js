@@ -4,38 +4,24 @@
  * * server 관리
  * * 농림축산식품 공공데이터포털 https://data.mafra.go.kr/main.do
  * */
+
+/* 
+! 주석 지우지 말 것
+* Promise.all : 한번에 요청 -> 요청 시간 최적화, 서버 부하 가능성 있음
+* for로 순차적 : 차례로 요청
+* const responses = await Promise.all(urls.map(url => axios.get(url))); */
+
+// * 데이터 요청종료위치 지원 최대 1000 -> 모두 불러오기
+/* 
+! 개수
+* 레시피 537개
+* row : 6140
+* 마지막 레시피 id : 19543
+* 마지막 IRDNT_SN : 195459
+*/
 import axios from "axios";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
-
-
-
-// * 데이터 불러오기
-// const fetchData = async (url) => {
-//   try {
-//     const response = await axios.get(url);
-
-//     if (response.status === 200) {
-//       const parser = new DOMParser();
-//       /**
-//        * @xmlDoc : 오류 날 경우 console 찍기
-//       */
-//       const xmlDoc = parser.parseFromString(response.data, 'text/xml');
-//       return xmlDoc;
-//     } else {
-//       throw new Error(`데이터 불러오기 실패: ${response.status}`);
-//     }
-//   } catch (error) {
-//     console.error('에러:', error);
-//     return null;
-//   }
-// };
-
-/* // * xml parsing
-const extractData = (xmlDoc, tagName) => {
-  if (!xmlDoc) return null;
-  return Array.from(xmlDoc.querySelectorAll(tagName)).map((item) => item.textContent);
-}; */
 
 
 // * 레시피 기본 정보 26 fetchDataBasic
@@ -58,18 +44,13 @@ export const fetchDataBasic = async (id) => {
     let combinedData = [];
 
     for (const URL of URLS) {
-      /* 
-      ! 주석 지우지 말 것
-      * Promise.all : 한번에 요청 -> 요청 시간 최적화, 서버 부하 가능성 있음
-      * for로 순차적 : 차례로 요청
-      * const responses = await Promise.all(urls.map(url => axios.get(url))); */
 
       const response = await axios.get(`${PROXY}${URL}`);
 
       if (response.status === 200) {
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(response.data, "text/xml");
-        
+
         const extractData = (tagName) => Array.from(xmlDoc.querySelectorAll(tagName)).map((item) => item.textContent);
 
         const $recipe_id = extractData('RECIPE_ID'); // * 레시피 코드
@@ -97,7 +78,7 @@ export const fetchDataBasic = async (id) => {
             $price: $price[i],
           });
         }
-        
+
       } else {
         console.log('데이터 불러오기 실패:', response.status);
         return null;
@@ -117,14 +98,7 @@ export const fetchDataBasic = async (id) => {
 // * 레시피 재료 정보 27 fetchDataIngredient
 export const fetchDataIngredient = async () => {
 
-  // * 데이터 요청종료위치 지원 최대 1000 -> 모두 불러오기
-  /* 
-  ! 개수
-  * 레시피 537개
-  * row : 6140
-  * 마지막 레시피 id : 19543
-  * 마지막 IRDNT_SN : 195459
-  */
+
   const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
   const URLS = [
     // ! 주석 잊지말 것 : 재료 정보에는 레시피 이름이 나오지 않음
@@ -141,7 +115,7 @@ export const fetchDataIngredient = async () => {
     // * 검색 결과 데이터 담을 빈 배열
     let combinedData = [];
     // 모든 응답에서 레시피 ID를 모을 배열
-    let combinedRecipeIds = []; 
+    let combinedRecipeIds = [];
 
 
     for (const URL of URLS) {
@@ -161,7 +135,7 @@ export const fetchDataIngredient = async () => {
 
         const $ingredient_name = extractData('IRDNT_NM');
         const $recipe_id = extractData('RECIPE_ID');
-        
+
 
 
         // * 재료명과 레시피 ID를 합치기
@@ -169,13 +143,13 @@ export const fetchDataIngredient = async () => {
           combinedData.push({
             $ingredient_name: $ingredient_name[i],
             $recipe_id: $recipe_id[i],
-            
+
           });
         }
-        
+
         // * 레시피 ID 모음
         combinedRecipeIds = combinedRecipeIds.concat($recipe_id);
-        
+
       } else {
         console.log('데이터 불러오기 실패:', response.status);
         return null;
@@ -202,14 +176,6 @@ export const fetchDataIngredient = async () => {
 // * 검색 결과 재료 데이터
 export const ResultIngredient = async (id) => {
   const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
-  // * 데이터 요청종료위치 지원 최대 1000 -> 모두 불러오기
-  /* 
-  ! 개수
-  * 레시피 537개
-  * row : 6140
-  * 마지막 레시피 id : 19543
-  * 마지막 IRDNT_SN : 195459
-  */
 
   const URLS = [
     // ! 주석 잊지말 것 : 재료 정보에는 레시피 이름이 나오지 않음
@@ -226,15 +192,10 @@ export const ResultIngredient = async (id) => {
     // * 검색 결과 데이터 담을 빈 배열
     let combinedData = [];
     // 모든 응답에서 레시피 ID를 모을 배열
-    let combinedRecipeIds = []; 
+    let combinedRecipeIds = [];
 
 
     for (const URL of URLS) {
-      /* 
-      ! 주석 지우지 말 것
-      * Promise.all : 한번에 요청 -> 요청 시간 최적화, 서버 부하 가능성 있음
-      * for로 순차적 : 차례로 요청
-      * const responses = await Promise.all(urls.map(url => axios.get(url))); */
 
       const response = await axios.get(`${PROXY}${URL}`);
 
@@ -256,10 +217,10 @@ export const ResultIngredient = async (id) => {
             $ingredient_Volume: $ingredient_Volume[i],
           });
         }
-        
+
         // * 레시피 ID 모음
         combinedRecipeIds = combinedRecipeIds.concat($recipe_id);
-        
+
       } else {
         console.log('데이터 불러오기 실패:', response.status);
         return null;
@@ -286,14 +247,6 @@ export const ResultIngredient = async (id) => {
 
 export const fetchDataCourse = async (id) => {
   const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
-  // * 데이터 요청종료위치 지원 최대 1000 -> 모두 불러오기
-  /* 
-  ! 개수
-  * 레시피 537개
-  * row : 6140
-  * 마지막 레시피 id : 19543
-  * 마지막 IRDNT_SN : 195459
-  */
 
   const URLS = [
     // ! 주석 잊지말 것 : 재료 정보에는 레시피 이름이 나오지 않음
@@ -310,7 +263,7 @@ export const fetchDataCourse = async (id) => {
     // * 검색 결과 데이터 담을 빈 배열
     let combinedData = [];
     // 모든 응답에서 레시피 ID를 모을 배열
-    let combinedRecipeIds = []; 
+    let combinedRecipeIds = [];
 
 
     for (const URL of URLS) {
@@ -343,10 +296,10 @@ export const fetchDataCourse = async (id) => {
             $step_tip: $step_tip[i],
           });
         }
-        
+
         // * 레시피 ID 모음
         combinedRecipeIds = combinedRecipeIds.concat($recipe_id);
-        
+
       } else {
         console.log('데이터 불러오기 실패:', response.status);
         return null;
