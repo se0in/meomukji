@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../scss/Loading.scss';
 
-const Loading = ({text}) => {
+const Loading = ({state, text}) => {
   const [imgIndex, setImgIndex] = useState(1);
 
   // * 이미지 변경
@@ -16,6 +16,7 @@ const Loading = ({text}) => {
   return (
     <div className='Loading'>
       <div className="loading-box">
+        <p className='state'>{state}</p>
         <p className='now-state'>{text}</p>
         <p className='waiting'>잠시만 기다려주세요 😄</p>
         <div className="img-box">

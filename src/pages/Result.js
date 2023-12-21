@@ -15,6 +15,7 @@ import Loading from './Loading';
 
 const Result = () => {
   const [loading, setLoading] = useState(false);
+  const [ingredientLoading, setIngredientLoading] = useState(false);
   const location = useLocation();
   const [recipeInfo, setRecipeInfo] = useState([]);
   const [ingredient, setIngredient] = useState([]);
@@ -42,12 +43,15 @@ const Result = () => {
 
     // * 재료 정보 데이터
     const fetchRecipeBasicInfo = async () => {
+      setIngredientLoading(true)
       try {
         const DATA = await ResultIngredient(id);
         setIngredient(DATA);
 
       } catch (error) {
         console.error("데이터를 불러오는 중에 에러가 발생했습니다. : ", error);
+      }finally {
+        setIngredientLoading(false)
       }
     };
     fetchRecipeBasicInfo();
@@ -82,7 +86,7 @@ const Result = () => {
         <span>{matchedItems.length}개의 레시피가 있습니다.</span>
       </PageTitle>
       {loading ?
-        <Loading text="레시피를 찾고 있어요" /> :
+        <Loading text="레시피를 찾고 있어요!" state="재료 찾기 완료" /> :
         <div className="list-box">
           {/* // * 반복 돌릴 것 : Link */}
           {recipeInfo.map((item) => (
@@ -96,9 +100,9 @@ const Result = () => {
                       alt={item.$recipe_name} />
                   </div>
                   <div className="text-box">
-                    <span className='kind'>{item.$kind}</span>
-                    <p className="name">{item.$recipe_name}</p>
-                    <p className="desc">{item.$desc}</p>
+                    <span className='kind'>{item.$kind}</span>{/* 분류 */}
+                    <p className="name">{item.$recipe_name}</p>{/* 이름 */}
+                    <p className="desc">{item.$desc}</p>{/* 설명 */}
                   </div>
                 </div>
 
@@ -116,22 +120,24 @@ const Result = () => {
                   <p className="ingredient">
                     재료
                     {/* // * 검색어 등록한 재료 먼저 출력 */}
-                    {ingredient
+                    {ingredientLoading ? <span style={{color : '#999'}}>재료를 불러오고 있어요 😅</span> :
+                    ingredient
                       .filter((i) =>
-                        matchedItems.some(
-                          (searchItem) =>
-                            searchItem.$ingredient_name === i.$ingredient_name
+                      matchedItems.some(
+                        (searchItem) =>
+                        searchItem.$ingredient_name === i.$ingredient_name
                         ) &&
                         i.$recipe_id === item.$recipe_id
-                      )
-                      .map((recipeIngredient, index) => (
-                        <span
+                        )
+                        .map((recipeIngredient, index) => (
+                          <span
                           key={index}
                           className="point-color"
-                        >
+                          >
                           {recipeIngredient.$ingredient_name}
-                        </span>
-                      ))}
+                          </span>
+                          ))
+                        }
 
                     {/* // * 검색어 등록한 재료 먼저 출력 후 그 외 재료 출력 */}
                     {ingredient
