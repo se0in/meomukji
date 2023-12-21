@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import '../scss/Loading.scss';
+import { ImgBox } from '../styled-components/Styled';
 
 const Loading = ({state, text}) => {
-  const [imgIndex, setImgIndex] = useState(1);
+  const [imgIndex, setImgIndex] = useState(0);
 
   // * 이미지 변경
   useEffect(() => {
@@ -19,9 +20,9 @@ const Loading = ({state, text}) => {
         <p className='state'>{state}</p>
         <p className='now-state'>{text}</p>
         <p className='waiting'>잠시만 기다려주세요 😄</p>
-        <div className="img-box">
-          <img src={process.env.PUBLIC_URL + `images/loading-${imgIndex}.png`} alt="음식" />
-        </div>
+        <ImgBox 
+        className="img-box"
+        imgIndex={imgIndex} />
       </div>
     </div>
   )

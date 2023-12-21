@@ -97,7 +97,9 @@ const Result = () => {
                   <div className="img-box">
                     <img
                       src={process.env.PUBLIC_URL + imgUrls[item.$recipe_id]}
-                      alt={item.$recipe_name} />
+                      alt={item.$recipe_name} 
+                      loading="lazy"
+                      />
                   </div>
                   <div className="text-box">
                     <span className='kind'>{item.$kind}</span>{/* 분류 */}

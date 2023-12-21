@@ -35,16 +35,5 @@
       margin-top: 10px;
       color: $sub-text-color;
     }
-    .img-box {
-      width: calc(100% - 30px);
-      height: 200px;
-      max-width: 250px;
-      margin: 40px auto 0;
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-    }
   }
 }

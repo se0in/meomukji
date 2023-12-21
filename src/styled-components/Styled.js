@@ -164,6 +164,30 @@ export const ResetBtn = styled.button`
   &:hover {
     background-color: #d2d2d2;
     color: #999;
-
   }
 `
+
+export const ImgBox = styled.div`
+  position: relative;
+  width: calc(100% - 30px);
+  height: 200px;
+  max-width: 250px;
+  margin: 40px auto 0;
+  background-image: url(${props => process.env.PUBLIC_URL + `/images/loading-${props.imgIndex}.png`});
+  background-repeat: no-repeat;
+  background-position : center;
+  background-size : 100%;
+  &::after {
+    content: 'Loading..';
+    position: absolute;
+    z-index : -1;
+    top : 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation : textOpacity 1s forwards;
+  }
+  @keyframes textOpacity {
+    0% {opacity: 1;}
+    100% {opacity: 0;}
+  }
+`;
