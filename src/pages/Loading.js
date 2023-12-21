@@ -20,9 +20,10 @@ const Loading = ({state, text}) => {
         <p className='state'>{state}</p>
         <p className='now-state'>{text}</p>
         <p className='waiting'>잠시만 기다려주세요 😄</p>
-        <ImgBox 
-        className="img-box"
-        imgIndex={imgIndex} />
+        <ImgBox>
+          <img 
+          src={process.env.PUBLIC_URL + `/images/loading-${imgIndex}.png`} alt="" />
+        </ImgBox>
       </div>
     </div>
   )

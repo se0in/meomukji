@@ -6,6 +6,7 @@
 
 import styled from "styled-components";
 import theme from "./theme";
+import Loading from '../pages/Loading';
 
 // * 바탕 둥근 흰 박스
 export const BorderRadiusBox = styled.div`
@@ -172,11 +173,15 @@ export const ImgBox = styled.div`
   width: calc(100% - 30px);
   height: 200px;
   max-width: 250px;
-  margin: 40px auto 0;
-  background-image: url(${props => process.env.PUBLIC_URL + `/images/loading-${props.imgIndex}.png`});
+  margin: 20px auto;
+  /* // ! 지우지 말 것 
+  background-image: url(${Loading => process.env.PUBLIC_URL + `/images/loading-${Loading.imgIndex}.png`});
   background-repeat: no-repeat;
   background-position : center;
-  background-size : 100%;
+  background-size : 100%; */
+  img {
+    width: 100%;
+  }
   &::after {
     content: 'Loading..';
     position: absolute;
