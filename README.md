@@ -20,12 +20,12 @@
 
 <br>
 
-<!-- ## 🎮 주요기능 (완성 후 등록)
-### 반응형
-  #### ◼ 메인 페이지
-  |제목|제목|
-  |:---:|:---:|
-  |<img src="링크" height="50%" width="100%" alt="readme 임시 등록"/>|<img src="링크" height="50%" width="100%" alt="readme 임시 등록"/>| -->
+## 🎮 주요기능
+### 재료 검색
+  |검색|검색 결과|상세|
+  |:---:|:---:|:---:|
+  |<img src="./public/images/readme/search.png" height="50%" width="90%" alt="검색"/>|<img src="./public/images/readme/result.png" height="50%" width="90%" alt="readme 임시 등록"/>|<img src="./public/images/readme/detail.png" height="50%" width="90%" alt="readme 임시 등록"/>|
+  |재료는 3개까지 등록할 수 있어요😁|겹친 재료가 있는 레시피가 먼저 나와요😆|맛있게 드세요 😋|
   
 
 ## 📌 프로젝트 작업하며 얻은 코드
