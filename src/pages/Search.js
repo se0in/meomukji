@@ -205,7 +205,7 @@ const Search = () => {
               placeholder="[예시] 감자 입력 후 → 등록 클릭!"
               value={newItemText}
               onChange={handleInputChange}
-              onKeyDown={(e) => {
+              onKeyPress={(e) => {
                 if (e.key === "Enter") {
                   handleItemRegistration();
                 }
