@@ -192,7 +192,7 @@ export const ImgBox = styled.div`
 // * Top Btn
 export const TopBtn = styled.button`
   position: fixed;
-  bottom: 20px;
+  bottom: -100px;
   right: 20px;
   background-color: ${theme.pointColorOrange};
   border-radius: 50%;
@@ -206,5 +206,8 @@ export const TopBtn = styled.button`
     font-size: 24px;
     color: #fff;
     vertical-align: -2px;
+  }
+  &.show {
+    bottom: 20px;
   }
 `
