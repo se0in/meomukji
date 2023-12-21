@@ -12,6 +12,7 @@ import imgDataJson from "../data/data.json";
 import { BorderRadiusBox, PageTitle } from "../styled-components/Styled";
 import "../scss/Result.scss";
 import Loading from './Loading';
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const Result = () => {
   const [loading, setLoading] = useState(false);
@@ -89,6 +90,8 @@ const Result = () => {
 
   // * $recipe_id와 json recipe_id가 같은 imgUrl 매칭해서 이미지 불러오기
   useEffect(() => {
+    setImgLoading(true);
+
     const jsonIds = imgDataJson.map((item) => item.recipe_id);
     const recipeIds = matchedItems.map((item) => item.$recipe_id);
 
@@ -107,6 +110,7 @@ const Result = () => {
     });
 
     setImgUrls(imgUrlObj);
+    setImgLoading(false);
   }, [matchedItems]);
 
   return (
@@ -125,11 +129,14 @@ const Result = () => {
                 {/* // * 아이템 타이틀 */}
                 <div className="item-title">
                   <div className="img-box">
+                    {imgLoading ? 
+                    <AiOutlineLoading3Quarters className='loading-text' /> :
                     <img
-                      src={process.env.PUBLIC_URL + imgUrls[item.$recipe_id]}
-                      alt={item.$recipe_name}
-                      loading="lazy"
+                    src={process.env.PUBLIC_URL + imgUrls[item.$recipe_id]}
+                    alt={item.$recipe_name}
+                    loading="lazy"
                     />
+                  }
                   </div>
                   <div className="text-box">
                     <span className='kind'>{item.$kind}</span>{/* 분류 */}

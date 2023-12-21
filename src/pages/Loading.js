@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../scss/Loading.scss';
 import { ImgBox } from '../styled-components/Styled';
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const Loading = ({state, text}) => {
   const [imgIndex, setImgIndex] = useState(0);
@@ -20,7 +21,10 @@ const Loading = ({state, text}) => {
         <p className='state'>{state}</p>
         <p className='now-state'>{text}</p>
         <p className='waiting'>잠시만 기다려주세요 😄</p>
-        <ImgBox>
+        <ImgBox className='img-box'>
+          <div className="img-loading">
+            <AiOutlineLoading3Quarters className='loading-img'/>
+          </div>
           <img 
           src={process.env.PUBLIC_URL + `/images/loading-${imgIndex}.png`} alt="" />
         </ImgBox>

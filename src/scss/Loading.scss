@@ -35,5 +35,25 @@
       margin-top: 10px;
       color: $sub-text-color;
     }
+    .img-box {
+      position: relative;
+      .loading-img {
+        position: absolute;
+        z-index : -1;
+        top : 100px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: $sub-text-color;
+        animation : rotate 1s infinite linear;
+      }
+    }
+  }
+}
+@keyframes rotate {
+  0% {
+    transform: translateX(-50%) rotate(0);
+  }
+  100% {
+    transform: translateX(-50%) rotate(360deg);
   }
 }

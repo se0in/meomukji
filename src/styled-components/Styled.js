@@ -1,3 +1,4 @@
+
 /**
  * author se0in
  * Create Date 2023.12.12.
@@ -181,15 +182,7 @@ export const ImgBox = styled.div`
   img {
     width: 100%;
   }
-  &::after {
-    content: 'Loading..';
-    position: absolute;
-    z-index : -1;
-    top : 80px;
-    left: 50%;
-    transform: translateX(-50%);
-    animation : textOpacity 1s forwards;
-  }
+  
   @keyframes textOpacity {
     0% {opacity: 1;}
     100% {opacity: 0;}
