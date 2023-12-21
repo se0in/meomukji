@@ -187,4 +187,24 @@ export const ImgBox = styled.div`
     0% {opacity: 1;}
     100% {opacity: 0;}
   }
-`;
+  `;
+
+// * Top Btn
+export const TopBtn = styled.button`
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: ${theme.pointColorOrange};
+  border-radius: 50%;
+  padding: 10px 12px;
+  box-shadow: 0 0 10px rgba(245, 150, 7, 0.4);
+  transition: .3s;
+  &:hover {
+    bottom: 22px;
+  }
+  svg {
+    font-size: 24px;
+    color: #fff;
+    vertical-align: -2px;
+  }
+`

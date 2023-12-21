@@ -9,3 +9,11 @@ export const preparing = (e) => {
   alert('준비중 입니다. 😂');
   e.preventDefault();
 }
+
+// * 서서히 위로 올라가는 이벤트
+export const scrollTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+};

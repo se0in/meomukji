@@ -13,6 +13,8 @@ import { BorderRadiusBox, PageTitle } from "../styled-components/Styled";
 import "../scss/Result.scss";
 import Loading from './Loading';
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import ScrollTopBtn from '../components/ScrollTopBtn';
+
 
 const Result = () => {
   const [loading, setLoading] = useState(false);
@@ -199,6 +201,8 @@ const Result = () => {
           ))}
         </div>
       }
+      {/* // * 맨 위로 버튼 */}
+      <ScrollTopBtn />
     </div>
   );
 };
