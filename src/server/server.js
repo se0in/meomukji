@@ -3,7 +3,9 @@
  * Create Date 2023.12.13.
  * * server 관리
  * * 농림축산식품 공공데이터포털 https://data.mafra.go.kr/main.do
+ * TODO 클린코드
  * */
+
 
 /* 
 ! 주석 지우지 말 것
@@ -38,17 +40,14 @@ export const fetchDataBasic = async (id) => {
     `/${API_KEY}/xml/Grid_20150827000000000226_1/1/1000`,
     `/${API_KEY}/xml/Grid_20150827000000000226_1/1001/2000`,
     `/${API_KEY}/xml/Grid_20150827000000000226_1/2001/3000`,
-    /* `/${API_KEY}/xml/Grid_20150827000000000226_1/3001/4000`,
+    `/${API_KEY}/xml/Grid_20150827000000000226_1/3001/4000`,
     `/${API_KEY}/xml/Grid_20150827000000000226_1/4001/5000`,
     `/${API_KEY}/xml/Grid_20150827000000000226_1/5001/6000`,
-    `/${API_KEY}/xml/Grid_20150827000000000226_1/6001/6140` */
+    `/${API_KEY}/xml/Grid_20150827000000000226_1/6001/6140`
   ]
 
   try {
-    // * 검색 결과 데이터 담을 빈 배열
-    let combinedData = [];
-
-    for (const URL of URLS) {
+    const promises = URLS.map(async (URL) => {
       const response = await axios.get(`${PROXY}${URL}`);
 
       if (response.status === 200) {
@@ -66,7 +65,7 @@ export const fetchDataBasic = async (id) => {
         const $kind = extractData('NATION_NM'); // * 음식 분류(ex : 한식)
         const $price = extractData('PN_NM'); // * 가격
 
-
+        const combinedData = [];
         // * 레시피이름과 레시피 ID를 합치기
         for (let i = 0; i < Math.min($recipe_name.length, $recipe_id.length); i++) {
           combinedData.push({
@@ -81,14 +80,16 @@ export const fetchDataBasic = async (id) => {
             $price: $price[i],
           });
         }
-
+        return combinedData;
       } else {
         console.log('데이터 불러오기 실패:', response.status);
         return null;
       }
-    }
+    });
 
-    const filterData = combinedData.filter(item => id.includes(item.$recipe_id))
+    const results = await Promise.all(promises);
+    const combinedData = results.flat(); 
+    const filterData = combinedData.filter(item => id.includes(item.$recipe_id));
     return filterData;
 
   } catch (error) {
@@ -100,7 +101,8 @@ export const fetchDataBasic = async (id) => {
 
 
 
-// * 레시피 상세 기본 정보 26 fetchDataBasic
+
+// * 레시피 기본 정보 26 fetchDataBasic
 export const fetchDataBasicDetail = async (id) => {
 
   const URLS = [
@@ -108,17 +110,14 @@ export const fetchDataBasicDetail = async (id) => {
     `/${API_KEY}/xml/Grid_20150827000000000226_1/1/1000`,
     `/${API_KEY}/xml/Grid_20150827000000000226_1/1001/2000`,
     `/${API_KEY}/xml/Grid_20150827000000000226_1/2001/3000`,
-    /* `/${API_KEY}/xml/Grid_20150827000000000226_1/3001/4000`,
+    `/${API_KEY}/xml/Grid_20150827000000000226_1/3001/4000`,
     `/${API_KEY}/xml/Grid_20150827000000000226_1/4001/5000`,
     `/${API_KEY}/xml/Grid_20150827000000000226_1/5001/6000`,
-    `/${API_KEY}/xml/Grid_20150827000000000226_1/6001/6140` */
+    `/${API_KEY}/xml/Grid_20150827000000000226_1/6001/6140`
   ]
 
   try {
-    // * 검색 결과 데이터 담을 빈 배열
-    let combinedData = [];
-
-    for (const URL of URLS) {
+    const promises = URLS.map(async (URL) => {
       const response = await axios.get(`${PROXY}${URL}`);
 
       if (response.status === 200) {
@@ -136,7 +135,7 @@ export const fetchDataBasicDetail = async (id) => {
         const $kind = extractData('NATION_NM'); // * 음식 분류(ex : 한식)
         const $price = extractData('PN_NM'); // * 가격
 
-
+        const combinedData = [];
         // * 레시피이름과 레시피 ID를 합치기
         for (let i = 0; i < Math.min($recipe_name.length, $recipe_id.length); i++) {
           combinedData.push({
@@ -151,14 +150,16 @@ export const fetchDataBasicDetail = async (id) => {
             $price: $price[i],
           });
         }
-
+        return combinedData;
       } else {
         console.log('데이터 불러오기 실패:', response.status);
         return null;
       }
-    }
+    });
 
-    const filterData = combinedData.filter(item => id === item.$recipe_id)
+    const results = await Promise.all(promises);
+    const combinedData = results.flat(); 
+    const filterData = combinedData.filter(item => id === item.$recipe_id);
     return filterData;
 
   } catch (error) {
@@ -169,28 +170,22 @@ export const fetchDataBasicDetail = async (id) => {
 
 
 
+
 // * 레시피 재료 정보 27 fetchDataIngredient
 export const fetchDataIngredient = async () => {
 
   const URLS = [
-    // ! 주석 잊지말 것 : 재료 정보에는 레시피 이름이 나오지 않음
     `/${API_KEY}/xml/Grid_20150827000000000227_1/1/1000`,
     `/${API_KEY}/xml/Grid_20150827000000000227_1/1001/2000`,
     `/${API_KEY}/xml/Grid_20150827000000000227_1/2001/3000`,
-    /* `/${API_KEY}/xml/Grid_20150827000000000227_1/3001/4000`,
+    `/${API_KEY}/xml/Grid_20150827000000000227_1/3001/4000`,
     `/${API_KEY}/xml/Grid_20150827000000000227_1/4001/5000`,
     `/${API_KEY}/xml/Grid_20150827000000000227_1/5001/6000`,
-    `/${API_KEY}/xml/Grid_20150827000000000227_1/6001/6140` */
-  ]
+    `/${API_KEY}/xml/Grid_20150827000000000227_1/6001/6140`
+  ];
 
   try {
-    // * 검색 결과 데이터 담을 빈 배열
-    let combinedData = [];
-    // * 모든 응답에서 레시피 ID를 모을 배열
-    let combinedRecipeIds = [];
-
-    for (const URL of URLS) {
-
+    const promises = URLS.map(async (URL) => {
       const response = await axios.get(`${PROXY}${URL}`);
 
       if (response.status === 200) {
@@ -200,6 +195,7 @@ export const fetchDataIngredient = async () => {
         const $ingredient_name = extractData('IRDNT_NM');
         const $recipe_id = extractData('RECIPE_ID');
 
+        const combinedData = [];
         // * 재료명과 레시피 ID를 합치기
         for (let i = 0; i < Math.min($ingredient_name.length, $recipe_id.length); i++) {
           combinedData.push({
@@ -207,15 +203,15 @@ export const fetchDataIngredient = async () => {
             $recipe_id: $recipe_id[i],
           });
         }
-
-        // * 레시피 ID 모음
-        combinedRecipeIds = combinedRecipeIds.concat($recipe_id);
-
+        return combinedData;
       } else {
         console.log('데이터 불러오기 실패:', response.status);
         return null;
       }
-    }
+    });
+
+    const results = await Promise.all(promises);
+    const combinedData = results.flat(); // Flatten the array of arrays
     return combinedData;
 
   } catch (error) {
@@ -225,28 +221,26 @@ export const fetchDataIngredient = async () => {
 };
 
 
+
+
+
 // * 검색 결과 재료 데이터
 export const ResultIngredient = async (id) => {
 
   const URLS = [
-    // ! 주석 잊지말 것 : 재료 정보에는 레시피 이름이 나오지 않음
     `/${API_KEY}/xml/Grid_20150827000000000227_1/1/1000`,
     `/${API_KEY}/xml/Grid_20150827000000000227_1/1001/2000`,
     `/${API_KEY}/xml/Grid_20150827000000000227_1/2001/3000`,
-    /* `/${API_KEY}/xml/Grid_20150827000000000227_1/3001/4000`,
+    `/${API_KEY}/xml/Grid_20150827000000000227_1/3001/4000`,
     `/${API_KEY}/xml/Grid_20150827000000000227_1/4001/5000`,
     `/${API_KEY}/xml/Grid_20150827000000000227_1/5001/6000`,
-    `/${API_KEY}/xml/Grid_20150827000000000227_1/6001/6140` */
-  ]
+    `/${API_KEY}/xml/Grid_20150827000000000227_1/6001/6140`
+  ];
 
   try {
-    // * 검색 결과 데이터 담을 빈 배열
-    let combinedData = [];
-    // * 모든 응답에서 레시피 ID를 모을 배열
-    let combinedRecipeIds = [];
-
-    for (const URL of URLS) {
+    const promises = URLS.map(async (URL) => {
       const response = await axios.get(`${PROXY}${URL}`);
+
       if (response.status === 200) {
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(response.data, "text/xml");
@@ -255,6 +249,7 @@ export const ResultIngredient = async (id) => {
         const $recipe_id = extractData('RECIPE_ID');
         const $ingredient_Volume = extractData('IRDNT_CPCTY'); // * 재료 양
 
+        const combinedData = [];
         // * 재료명과 레시피 ID를 합치기
         for (let i = 0; i < Math.min($ingredient_name.length, $recipe_id.length); i++) {
           combinedData.push({
@@ -263,15 +258,16 @@ export const ResultIngredient = async (id) => {
             $ingredient_Volume: $ingredient_Volume[i],
           });
         }
-        // * 레시피 ID 모음
-        combinedRecipeIds = combinedRecipeIds.concat($recipe_id);
-
+        return combinedData;
       } else {
         console.log('데이터 불러오기 실패:', response.status);
         return null;
       }
-    }
-    const filterData = combinedData.filter(item => id.includes(item.$recipe_id))
+    });
+
+    const results = await Promise.all(promises);
+    const combinedData = results.flat(); // Flatten the array of arrays
+    const filterData = combinedData.filter(item => id.includes(item.$recipe_id));
     return filterData;
 
   } catch (error) {
@@ -285,53 +281,49 @@ export const ResultIngredient = async (id) => {
 
 // * 검색 결과 재료 데이터 상세
 export const ResultIngredientDetail = async (id) => {
-
   const URLS = [
-    // ! 주석 잊지말 것 : 재료 정보에는 레시피 이름이 나오지 않음
     `/${API_KEY}/xml/Grid_20150827000000000227_1/1/1000`,
     `/${API_KEY}/xml/Grid_20150827000000000227_1/1001/2000`,
     `/${API_KEY}/xml/Grid_20150827000000000227_1/2001/3000`,
-    /* `/${API_KEY}/xml/Grid_20150827000000000227_1/3001/4000`,
+    `/${API_KEY}/xml/Grid_20150827000000000227_1/3001/4000`,
     `/${API_KEY}/xml/Grid_20150827000000000227_1/4001/5000`,
     `/${API_KEY}/xml/Grid_20150827000000000227_1/5001/6000`,
-    `/${API_KEY}/xml/Grid_20150827000000000227_1/6001/6140` */
-  ]
+    `/${API_KEY}/xml/Grid_20150827000000000227_1/6001/6140`
+  ];
 
   try {
-    // * 검색 결과 데이터 담을 빈 배열
-    let combinedData = [];
-    // * 모든 응답에서 레시피 ID를 모을 배열
-    let combinedRecipeIds = [];
+    const responses = await Promise.all(
+      URLS.map(async (URL) => {
+        const response = await axios.get(`${PROXY}${URL}`);
+        if (response.status === 200) {
+          const parser = new DOMParser();
+          const xmlDoc = parser.parseFromString(response.data, "text/xml");
+          const extractData = (tagName) => Array.from(xmlDoc.querySelectorAll(tagName)).map((item) => item.textContent);
+          const $ingredient_name = extractData('IRDNT_NM');
+          const $recipe_id = extractData('RECIPE_ID');
+          const $ingredient_Volume = extractData('IRDNT_CPCTY'); // * 재료 양
 
-    for (const URL of URLS) {
-      const response = await axios.get(`${PROXY}${URL}`);
-      if (response.status === 200) {
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(response.data, "text/xml");
-        const extractData = (tagName) => Array.from(xmlDoc.querySelectorAll(tagName)).map((item) => item.textContent);
-        const $ingredient_name = extractData('IRDNT_NM');
-        const $recipe_id = extractData('RECIPE_ID');
-        const $ingredient_Volume = extractData('IRDNT_CPCTY'); // * 재료 양
-
-        // * 재료명과 레시피 ID를 합치기
-        for (let i = 0; i < Math.min($ingredient_name.length, $recipe_id.length); i++) {
-          combinedData.push({
-            $ingredient_name: $ingredient_name[i],
-            $recipe_id: $recipe_id[i],
-            $ingredient_Volume: $ingredient_Volume[i],
-          });
+          const combinedData = [];
+          // * 재료명과 레시피 ID를 합치기
+          for (let i = 0; i < Math.min($ingredient_name.length, $recipe_id.length); i++) {
+            if (id === $recipe_id[i]) {
+              combinedData.push({
+                $ingredient_name: $ingredient_name[i],
+                $recipe_id: $recipe_id[i],
+                $ingredient_Volume: $ingredient_Volume[i],
+              });
+            }
+          }
+          return combinedData;
+        } else {
+          console.log('데이터 불러오기 실패:', response.status);
+          return null;
         }
-        // * 레시피 ID 모음
-        combinedRecipeIds = combinedRecipeIds.concat($recipe_id);
+      })
+    );
 
-      } else {
-        console.log('데이터 불러오기 실패:', response.status);
-        return null;
-      }
-    }
-    const filterData = combinedData.filter(item => id === item.$recipe_id)
-    return filterData;
-
+    const combinedData = responses.flat().filter(item => id === item.$recipe_id); 
+    return combinedData;
   } catch (error) {
     console.error('에러:', error);
     return null;
@@ -341,59 +333,52 @@ export const ResultIngredientDetail = async (id) => {
 
 
 // * 레시피 과정 정보 28 fetchDataCourse
-
 export const fetchDataCourse = async (id) => {
   const URLS = [
-    // ! 주석 잊지말 것 : 재료 정보에는 레시피 이름이 나오지 않음
     `/${API_KEY}/xml/Grid_20150827000000000228_1/1/1000`,
     `/${API_KEY}/xml/Grid_20150827000000000228_1/1001/2000`,
     `/${API_KEY}/xml/Grid_20150827000000000228_1/2001/3000`,
-    /* `/${API_KEY}/xml/Grid_20150827000000000228_1/3001/4000`,
+    `/${API_KEY}/xml/Grid_20150827000000000228_1/3001/4000`,
     `/${API_KEY}/xml/Grid_20150827000000000228_1/4001/5000`,
     `/${API_KEY}/xml/Grid_20150827000000000228_1/5001/6000`,
-    `/${API_KEY}/xml/Grid_20150827000000000228_1/6001/6140` */
-  ]
+    `/${API_KEY}/xml/Grid_20150827000000000228_1/6001/6140`
+  ];
 
   try {
-    // * 검색 결과 데이터 담을 빈 배열
-    let combinedData = [];
-    // * 모든 응답에서 레시피 ID를 모을 배열
-    let combinedRecipeIds = [];
-    for (const URL of URLS) {
-      const response = await axios.get(`${PROXY}${URL}`);
-      if (response.status === 200) {
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(response.data, "text/xml");
-        const extractData = (tagName) => Array.from(xmlDoc.querySelectorAll(tagName)).map((item) => item.textContent);
-        const $recipe_id = extractData('RECIPE_ID');
-        const $cooking_num = extractData('COOKING_NO');
-        const $cooking_desc = extractData('COOKING_DC');
-        const $step_tip = extractData('STEP_TIP');
+    const responses = await Promise.all(
+      URLS.map(async (URL) => {
+        const response = await axios.get(`${PROXY}${URL}`);
+        if (response.status === 200) {
+          const parser = new DOMParser();
+          const xmlDoc = parser.parseFromString(response.data, "text/xml");
+          const extractData = (tagName) => Array.from(xmlDoc.querySelectorAll(tagName)).map((item) => item.textContent);
+          const $recipe_id = extractData('RECIPE_ID');
+          const $cooking_num = extractData('COOKING_NO');
+          const $cooking_desc = extractData('COOKING_DC');
+          const $step_tip = extractData('STEP_TIP');
 
-
-        // * 재료명과 레시피 ID를 합치기
-        for (let i = 0; i < Math.min($recipe_id.length); i++) {
-          combinedData.push({
-            $recipe_id: $recipe_id[i],
-            $cooking_num: $cooking_num[i],
-            $cooking_desc: $cooking_desc[i],
-            $step_tip: $step_tip[i],
-          });
+          const combinedData = [];
+          // * 레시피 ID에 해당하는 정보만 가져오기
+          for (let i = 0; i < Math.min($recipe_id.length); i++) {
+            if (id === $recipe_id[i]) {
+              combinedData.push({
+                $recipe_id: $recipe_id[i],
+                $cooking_num: $cooking_num[i],
+                $cooking_desc: $cooking_desc[i],
+                $step_tip: $step_tip[i],
+              });
+            }
+          }
+          return combinedData;
+        } else {
+          console.log('데이터 불러오기 실패:', response.status);
+          return [];
         }
+      })
+    );
 
-        // * 레시피 ID 모음
-        combinedRecipeIds = combinedRecipeIds.concat($recipe_id);
-
-      } else {
-        console.log('데이터 불러오기 실패:', response.status);
-        return null;
-      }
-    }
-
-    const filterData = combinedData.filter(item => id === item.$recipe_id)
-    return filterData;
-    
-
+    const combinedData = responses.reduce((acc, cur) => acc.concat(cur), []);
+    return combinedData;
   } catch (error) {
     console.error('에러:', error);
     return null;
