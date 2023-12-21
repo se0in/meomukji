@@ -179,7 +179,9 @@ const Search = () => {
               <br />
               레시피 추천을 해드릴게요!
             </p>
-            <p className="sub-text-color">최대 3개까지 입력할 수 있어요.</p>
+            <p className="sub-text-color">
+              한 개씩 입력, 최대 3개까지 등록할 수 있어요.😊<br />
+            </p>
           </div>
 
           {/* //* 검색어 입력, 등록 */}
@@ -200,7 +202,7 @@ const Search = () => {
           <div className="input-box">
             <InputText
               type="text"
-              placeholder="입력 후 등록을 눌러주세요."
+              placeholder="[예시] 감자 입력 후 → 등록 클릭!"
               value={newItemText}
               onChange={handleInputChange}
               onKeyDown={(e) => {

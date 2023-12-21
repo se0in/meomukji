@@ -15,6 +15,7 @@ import Loading from './Loading';
 
 const Result = () => {
   const [loading, setLoading] = useState(false);
+  const [imgLoading, setImgLoading] = useState(false);
   const [ingredientLoading, setIngredientLoading] = useState(false);
   const location = useLocation();
   const [recipeInfo, setRecipeInfo] = useState([]);
