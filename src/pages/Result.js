@@ -20,6 +20,7 @@ const Result = () => {
   const [recipeInfo, setRecipeInfo] = useState([]);
   const [ingredient, setIngredient] = useState([]);
 
+
   // * 이전 페이지(검색)에서 받아온 정보들
   const matchedItems = location.state.matchedItems;
   const [imgUrls, setImgUrls] = useState({}); // * json이미지 url
@@ -35,7 +36,7 @@ const Result = () => {
         setRecipeInfo(DATA);
       } catch (error) {
         console.error("데이터를 불러오는 중에 에러가 발생했습니다. : ", error);
-      }finally{
+      } finally {
         setLoading(false)
       }
     };
@@ -50,12 +51,40 @@ const Result = () => {
 
       } catch (error) {
         console.error("데이터를 불러오는 중에 에러가 발생했습니다. : ", error);
-      }finally {
+      } finally {
         setIngredientLoading(false)
       }
     };
     fetchRecipeBasicInfo();
   }, [matchedItems]);
+
+
+  // * 중복된 재료 많은 순 나열
+  const hasDuplicateIngredients = (recipeId) => {
+    const matchedIngredients = ingredient.filter((i) =>
+      matchedItems.some(
+        (searchItem) =>
+          searchItem.$ingredient_name === i.$ingredient_name
+      ) && i.$recipe_id === recipeId
+    );
+
+    return matchedIngredients.length > 1;
+  };
+
+  const sortedRecipes = recipeInfo.slice().sort((a, b) => {
+    const hasDuplicatesA = hasDuplicateIngredients(a.$recipe_id);
+    const hasDuplicatesB = hasDuplicateIngredients(b.$recipe_id);
+
+    if (hasDuplicatesA && hasDuplicatesB) {
+      return 0;
+    } else if (hasDuplicatesA) {
+      return -1;
+    } else if (hasDuplicatesB) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
 
   // * $recipe_id와 json recipe_id가 같은 imgUrl 매칭해서 이미지 불러오기
   useEffect(() => {
@@ -89,7 +118,7 @@ const Result = () => {
         <Loading text="레시피를 찾고 있어요!" state="재료 찾기 완료" /> :
         <div className="list-box">
           {/* // * 반복 돌릴 것 : Link */}
-          {recipeInfo.map((item) => (
+          {sortedRecipes.map((item) => (
             <Link to={`/Detail/${item.$recipe_id}`} key={item.$recipe_id} recipe_id={item.$recipe_id}>
               <BorderRadiusBox className="list">
                 {/* // * 아이템 타이틀 */}
@@ -97,9 +126,9 @@ const Result = () => {
                   <div className="img-box">
                     <img
                       src={process.env.PUBLIC_URL + imgUrls[item.$recipe_id]}
-                      alt={item.$recipe_name} 
+                      alt={item.$recipe_name}
                       loading="lazy"
-                      />
+                    />
                   </div>
                   <div className="text-box">
                     <span className='kind'>{item.$kind}</span>{/* 분류 */}
@@ -122,24 +151,24 @@ const Result = () => {
                   <p className="ingredient">
                     재료
                     {/* // * 검색어 등록한 재료 먼저 출력 */}
-                    {ingredientLoading ? <span style={{color : '#999'}}>재료를 불러오고 있어요 😅</span> :
-                    ingredient
-                      .filter((i) =>
-                      matchedItems.some(
-                        (searchItem) =>
-                        searchItem.$ingredient_name === i.$ingredient_name
-                        ) &&
-                        i.$recipe_id === item.$recipe_id
+                    {ingredientLoading ? <span style={{ color: '#999' }}>재료를 불러오고 있어요 😅</span> :
+                      ingredient
+                        .filter((i) =>
+                          matchedItems.some(
+                            (searchItem) =>
+                              searchItem.$ingredient_name === i.$ingredient_name
+                          ) &&
+                          i.$recipe_id === item.$recipe_id
                         )
                         .map((recipeIngredient, index) => (
                           <span
-                          key={index}
-                          className="point-color"
+                            key={index}
+                            className="point-color"
                           >
-                          {recipeIngredient.$ingredient_name}
+                            {recipeIngredient.$ingredient_name}
                           </span>
-                          ))
-                        }
+                        ))
+                    }
 
                     {/* // * 검색어 등록한 재료 먼저 출력 후 그 외 재료 출력 */}
                     {ingredient
