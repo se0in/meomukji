@@ -55,7 +55,7 @@ export const InputText = styled.input`
     color: ${theme.inputPlaceholder};
   }
   &:focus {
-    outline: 1px solid ${theme.darkButtonColor};
+    outline: 1px solid ${theme.inputPlaceholder};
   }
 `;
 // * dark 버튼 스타일
@@ -68,7 +68,6 @@ export const DarkBtn = styled.button`
   transition: .3s;
   &:hover {
     background-color: ${theme.darkButtonColorHover};
-
   }
 `;
 

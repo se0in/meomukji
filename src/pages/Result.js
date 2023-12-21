@@ -11,9 +11,10 @@ import { ResultIngredient, fetchDataBasic } from "../server/server";
 import imgDataJson from "../data/data.json";
 import { BorderRadiusBox, PageTitle } from "../styled-components/Styled";
 import "../scss/Result.scss";
+import Loading from './Loading';
 
 const Result = () => {
-  
+  const [loading, setLoading] = useState(false);
   const location = useLocation();
   const [recipeInfo, setRecipeInfo] = useState([]);
   const [ingredient, setIngredient] = useState([]);
@@ -27,11 +28,14 @@ const Result = () => {
     const id = matchedItems.map((item) => item.$recipe_id);
     // * 기본 정보 데이터
     const fetchDataIngredient = async () => {
+      setLoading(true)
       try {
         const DATA = await fetchDataBasic(id);
         setRecipeInfo(DATA);
       } catch (error) {
         console.error("데이터를 불러오는 중에 에러가 발생했습니다. : ", error);
+      }finally{
+        setLoading(false)
       }
     };
     fetchDataIngredient();
@@ -77,76 +81,79 @@ const Result = () => {
         검색 결과
         <span>{matchedItems.length}개의 레시피가 있습니다.</span>
       </PageTitle>
-      <div className="list-box">
-        {/* // * 반복 돌릴 것 : Link */}
-        {recipeInfo.map((item) => (
-          <Link to={`/Detail/${item.$recipe_id}`} key={item.$recipe_id} recipe_id={item.$recipe_id}>
-            <BorderRadiusBox className="list">
-              {/* // * 아이템 타이틀 */}
-              <div className="item-title">
-                <div className="img-box">
-                  <img 
-                  src={process.env.PUBLIC_URL +  imgUrls[item.$recipe_id]} 
-                  alt={item.$recipe_name} />
+      {loading ?
+        <Loading text="레시피를 찾고 있어요" /> :
+        <div className="list-box">
+          {/* // * 반복 돌릴 것 : Link */}
+          {recipeInfo.map((item) => (
+            <Link to={`/Detail/${item.$recipe_id}`} key={item.$recipe_id} recipe_id={item.$recipe_id}>
+              <BorderRadiusBox className="list">
+                {/* // * 아이템 타이틀 */}
+                <div className="item-title">
+                  <div className="img-box">
+                    <img
+                      src={process.env.PUBLIC_URL + imgUrls[item.$recipe_id]}
+                      alt={item.$recipe_name} />
+                  </div>
+                  <div className="text-box">
+                    <span className='kind'>{item.$kind}</span>
+                    <p className="name">{item.$recipe_name}</p>
+                    <p className="desc">{item.$desc}</p>
+                  </div>
                 </div>
-                <div className="text-box">
-                  <span className='kind'>{item.$kind}</span>
-                  <p className="name">{item.$recipe_name}</p>
-                  <p className="desc">{item.$desc}</p>
+
+                {/* // * 아이템 설명 */}
+                <div className="item-desc">
+                  <p className="time">
+                    난이도
+                    <span>{item.$level}</span>
+                  </p>
+                  <p className="time">
+                    조리 시간
+                    <span>{item.$cook_time}</span>
+                  </p>
+                  {/* // * 검색 결과 className point-color */}
+                  <p className="ingredient">
+                    재료
+                    {/* // * 검색어 등록한 재료 먼저 출력 */}
+                    {ingredient
+                      .filter((i) =>
+                        matchedItems.some(
+                          (searchItem) =>
+                            searchItem.$ingredient_name === i.$ingredient_name
+                        ) &&
+                        i.$recipe_id === item.$recipe_id
+                      )
+                      .map((recipeIngredient, index) => (
+                        <span
+                          key={index}
+                          className="point-color"
+                        >
+                          {recipeIngredient.$ingredient_name}
+                        </span>
+                      ))}
+
+                    {/* // * 검색어 등록한 재료 먼저 출력 후 그 외 재료 출력 */}
+                    {ingredient
+                      .filter((i) =>
+                        !matchedItems.some(
+                          (searchItem) =>
+                            searchItem.$ingredient_name === i.$ingredient_name
+                        ) &&
+                        i.$recipe_id === item.$recipe_id
+                      )
+                      .map((recipeIngredient, index) => (
+                        <span key={index}>
+                          {recipeIngredient.$ingredient_name}
+                        </span>
+                      ))}
+                  </p>
                 </div>
-              </div>
-
-              {/* // * 아이템 설명 */}
-              <div className="item-desc">
-                <p className="time">
-                  난이도
-                  <span>{item.$level}</span>
-                </p>
-                <p className="time">
-                  조리 시간
-                  <span>{item.$cook_time}</span>
-                </p>
-                {/* // * 검색 결과 className point-color */}
-                <p className="ingredient">
-                  재료
-                  {/* // * 검색어 등록한 재료 먼저 출력 */}
-                  {ingredient
-                    .filter((i) =>
-                      matchedItems.some(
-                        (searchItem) =>
-                          searchItem.$ingredient_name === i.$ingredient_name
-                      ) &&
-                      i.$recipe_id === item.$recipe_id
-                    )
-                    .map((recipeIngredient, index) => (
-                      <span
-                        key={index}
-                        className="point-color"
-                      >
-                        {recipeIngredient.$ingredient_name}
-                      </span>
-                    ))}
-
-                  {/* // * 검색어 등록한 재료 먼저 출력 후 그 외 재료 출력 */}
-                  {ingredient
-                    .filter((i) =>
-                      !matchedItems.some(
-                        (searchItem) =>
-                          searchItem.$ingredient_name === i.$ingredient_name
-                      ) &&
-                      i.$recipe_id === item.$recipe_id
-                    )
-                    .map((recipeIngredient, index) => (
-                      <span key={index}>
-                        {recipeIngredient.$ingredient_name}
-                      </span>
-                    ))}
-                </p>
-              </div>
-            </BorderRadiusBox>
-          </Link>
-        ))}
-      </div>
+              </BorderRadiusBox>
+            </Link>
+          ))}
+        </div>
+      }
     </div>
   );
 };

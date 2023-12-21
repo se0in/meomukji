@@ -19,9 +19,11 @@ import {
 import "../scss/Search.scss";
 import { IoIosArrowDown } from "react-icons/io";
 import { preparing } from '../function/Function';
+import Loading from './Loading';
 
 const Search = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const [searchResult, setSearchResult] = useState(null);
   const [newItemText, setNewItemText] = useState("");
   const [items, setItems] = useState([]);
@@ -107,6 +109,7 @@ const Search = () => {
   
   // * 버튼 클릭 시 데이터 가져옴
   const handleSearchResultClick = async () => {
+    setIsLoading(true)
     try {
       if (items.length === 0) {
         // * 미입력 시
@@ -134,6 +137,8 @@ const Search = () => {
       }
     } catch (error) {
       console.error("데이터를 불러오는 중에 에러가 발생했습니다. : ", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -177,7 +182,6 @@ const Search = () => {
           </div>
 
           {/* //* 검색어 입력, 등록 */}
-
           {/* // *등록 결과 , 클릭 시 삭제 */}
           <div className="registration-box">
             {items &&
@@ -203,6 +207,7 @@ const Search = () => {
                   handleItemRegistration();
                 }
               }}
+              autoFocus
             />
             <DarkButton
               type="button"
@@ -289,6 +294,11 @@ const Search = () => {
           }
         </MainBtn>
       </div>
+        {isLoading ? 
+        <Loading 
+        text="일치하는 재료를 찾고 있어요!"
+        /> :
+        ''}
     </div>
   );
 };
