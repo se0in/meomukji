@@ -69,7 +69,8 @@ const Search = () => {
 
   let [isShowFilter, setIsShowFilter] = useState(false);
   // * 더보기 버튼 클릭 시 more filter
-  let moreShow = () => {
+  // eslint-disable-next-line
+  let moreShow = () => { 
     setIsShowFilter(!isShowFilter);
   };
 
@@ -220,10 +221,10 @@ const Search = () => {
           {/* // * more-btn active 시 svg rotate / 취소하기 */}
           <div
             className={`more-btn ${isShowFilter ? "active" : ""}`}
-            onClick={moreShow}
+            // onClick={moreShow}
+            onClick={preparing} /* // ! 준비 중! */
           >
             <button
-              onClick={preparing} /* // ! 준비 중! */
             >
               {`${!isShowFilter ? "더보기" : "취소"}`}
               <IoIosArrowDown />
