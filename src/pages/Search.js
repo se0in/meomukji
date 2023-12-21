@@ -106,7 +106,7 @@ const Search = () => {
     setTimeCookList(updateList)
 
   };
-  
+
   // * 버튼 클릭 시 데이터 가져옴
   const handleSearchResultClick = async () => {
     setIsLoading(true)
@@ -219,11 +219,12 @@ const Search = () => {
           {/* // * 더보기 클릭 시 filter */}
           {/* // * more-btn active 시 svg rotate / 취소하기 */}
           <div
-          className={`more-btn ${isShowFilter ? "active" : ""}`}
-          // onClick={moreShow}
-          onClick={preparing}
+            className={`more-btn ${isShowFilter ? "active" : ""}`}
+            onClick={moreShow}
           >
-            <button>
+            <button
+              onClick={preparing} /* // ! 준비 중! */
+            >
               {`${!isShowFilter ? "더보기" : "취소"}`}
               <IoIosArrowDown />
             </button>
@@ -294,9 +295,9 @@ const Search = () => {
           }
         </MainBtn>
       </div>
-        {isLoading ? 
-        <Loading 
-        text="일치하는 재료를 찾고 있어요!"
+      {isLoading ?
+        <Loading
+          text="일치하는 재료를 찾고 있어요!"
         /> :
         ''}
     </div>
