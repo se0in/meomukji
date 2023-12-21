@@ -1,4 +1,4 @@
-# 🍚 뭐묵지 | 냉장고털이
+# 🍚 [진행중] 뭐묵지 | 냉장고털이
 저녁 뭐먹지? 고민될 때 
 
 ✨ 링크 : https://seoin-meomukji.netlify.app/ ✨  
