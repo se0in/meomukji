@@ -7,54 +7,43 @@
  * */
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { ResultIngredient, fetchDataBasic, fetchDataCourse } from '../server/server';
+import { ResultIngredientDetail, fetchDataBasicDetail, fetchDataCourse } from '../server/server';
 import imgDataJson from "../data/data.json";
 import { BorderRadiusBox, PageTitle } from '../styled-components/Styled';
 import '../scss/Detail.scss';
+import Loading from './Loading';
 
 const Detail = () => {
   const { id } = useParams();
-  const [recipeBasic, setRecipeBasic] = useState(); // * 기본
-  const [recipeDetail, setRecipeDetail] = useState(); // * 과정
-  const [recipeIngredient, setRecipeIngredient] = useState(); // * 재료
+  const [recipeBasic, setRecipeBasic] = useState(null); // * 기본
+  const [recipeDetail, setRecipeDetail] = useState(null); // * 과정
+  const [recipeIngredient, setRecipeIngredient] = useState(null); // * 재료
+  const [isLoading, setIsLoading] = useState(false)
 
   const [imgUrls, setImgUrls] = useState({}); // * json이미지 url
 
   useEffect(() => {
-    // * 기본 정보 데이터
-    const detailBasic = async () => {
+    const fetchRecipeData = async () => {
+      setIsLoading(true)
       try {
-        const DATA = await fetchDataBasic(id);
-        setRecipeBasic(DATA)
+        // * 기본 정보 데이터
+        const DataBasic = await fetchDataBasicDetail(id);
+        setRecipeBasic(DataBasic)
+
+        // * 과정 정보 데이터
+        const DataCourse = await fetchDataCourse(id);
+        setRecipeDetail(DataCourse)
+
+        // * 재료 정보 데이터
+        const DataIngredient = await ResultIngredientDetail(id);
+        setRecipeIngredient(DataIngredient)
       } catch (error) {
         console.error("데이터를 불러오는 중에 에러가 발생했습니다. : ", error);
+      } finally {
+        setIsLoading(false)
       }
     };
-
-    // * 과정 정보 데이터
-    const detailCourse = async () => {
-      try {
-        const DATA = await fetchDataCourse(id);
-        setRecipeDetail(DATA)
-
-      } catch (error) {
-        console.error("데이터를 불러오는 중에 에러가 발생했습니다. : ", error);
-      }
-    };
-
-    // * 재료 정보 데이터
-    const fetchRecipeBasicInfo = async () => {
-      try {
-        const DATA = await ResultIngredient(id);
-        setRecipeIngredient(DATA)
-      } catch (error) {
-        console.error("데이터를 불러오는 중에 에러가 발생했습니다. : ", error);
-      }
-    };
-
-    detailBasic();
-    fetchRecipeBasicInfo();
-    detailCourse();
+    fetchRecipeData();
   }, [id]);
 
   // * $recipe_id와 json recipe_id가 같은 imgUrl 매칭해서 이미지 불러오기
@@ -80,63 +69,65 @@ const Detail = () => {
 
   return (
     <div className='Detail'>
-      {recipeBasic && recipeBasic.map((basic) =>
-        <div key={basic.$recipe_id}>
-          <PageTitle>
-            <span className='kind'>{basic.$kind}</span>
-            {basic.$recipe_name}
-            <span>{basic.$desc}</span>
-          </PageTitle>
-          <BorderRadiusBox className='bubble'>
-            <div className="img-box">
-              <img
-                src={process.env.PUBLIC_URL + imgUrls[id]}
-                alt={imgUrls.recipe_name}
-              />
-            </div>
-            <div className="desc">
-              {/* // * 정보 */}
-              <div className="desc-item">
-                <h3> 정보</h3>
-                <div className='list info'>
-                  <p><span>칼로리</span>{basic.$kcal}</p>
-                  <p><span>분량</span>{basic.$qnt}</p>
-                  <p><span>조리시간</span>{basic.$cook_time}</p>
-                  <p><span>난이도</span>{basic.$level}</p>
-                </div>
+      {isLoading ? 
+      <Loading text="레시피를 불러오는 중입니다."/> :
+        recipeBasic && recipeBasic.map((basic) =>
+          <div key={basic.$recipe_id}>
+            <PageTitle>
+              <span className='kind'>{basic.$kind}</span>
+              {basic.$recipe_name}
+              <span>{basic.$desc}</span>
+            </PageTitle>
+            <BorderRadiusBox className='bubble'>
+              <div className="img-box">
+                <img
+                  src={process.env.PUBLIC_URL + imgUrls[id]}
+                  alt={imgUrls.recipe_name}
+                />
               </div>
-              {/* // * 재료 */}
-              <div className="desc-item">
-                <h3>재료</h3>
-                <div className='list ingredient-list'>
-                  {recipeIngredient &&
-                    recipeIngredient.map((item, idx) => (
-                      <p key={idx} className='ingredient'>{item.$ingredient_name} {item.$ingredient_Volume}
-                        <span className='rest'>,</span>
-                      </p>
-                    ))
-                  }
+              <div className="desc">
+                {/* // * 정보 */}
+                <div className="desc-item">
+                  <h3> 정보</h3>
+                  <div className='list info'>
+                    <p><span>칼로리</span>{basic.$kcal}</p>
+                    <p><span>분량</span>{basic.$qnt}</p>
+                    <p><span>조리시간</span>{basic.$cook_time}</p>
+                    <p><span>난이도</span>{basic.$level}</p>
+                  </div>
                 </div>
-              </div>
+                {/* // * 재료 */}
+                <div className="desc-item">
+                  <h3>재료</h3>
+                  <div className='list ingredient-list'>
+                    {recipeIngredient &&
+                      recipeIngredient.map((item, idx) => (
+                        <p key={idx} className='ingredient'>{item.$ingredient_name} {item.$ingredient_Volume}
+                          <span className='rest'>,</span>
+                        </p>
+                      ))
+                    }
+                  </div>
+                </div>
 
-              {/* // * 조리 과정 */}
-              <div className="desc-item">
-                <h3>조리 과정</h3>
-                {/* // *반복될 영역 : list */}
-                {recipeDetail &&
-                  recipeDetail.map((item, idx) => (
-                    <div className='list' key={idx}>
-                      <div className="procedure">
-                        <span className='number'>{item.$cooking_num}</span>
-                        <p>{item.$cooking_desc}</p>
+                {/* // * 조리 과정 */}
+                <div className="desc-item">
+                  <h3>조리 과정</h3>
+                  {/* // *반복될 영역 : list */}
+                  {recipeDetail &&
+                    recipeDetail.map((item, idx) => (
+                      <div className='list' key={idx}>
+                        <div className="procedure">
+                          <span className='number'>{item.$cooking_num}</span>
+                          <p>{item.$cooking_desc}</p>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                </div>
               </div>
-            </div>
-          </BorderRadiusBox>
-        </div>
-      )}
+            </BorderRadiusBox>
+          </div>
+        )}
     </div>
   )
 }

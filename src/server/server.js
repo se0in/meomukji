@@ -98,6 +98,77 @@ export const fetchDataBasic = async (id) => {
 };
 
 
+
+
+// * 레시피 상세 기본 정보 26 fetchDataBasic
+export const fetchDataBasicDetail = async (id) => {
+
+  const URLS = [
+    // ! 주석 잊지말 것 : 재료 정보에는 레시피 이름이 나오지 않음
+    `/${API_KEY}/xml/Grid_20150827000000000226_1/1/1000`,
+    `/${API_KEY}/xml/Grid_20150827000000000226_1/1001/2000`,
+    `/${API_KEY}/xml/Grid_20150827000000000226_1/2001/3000`,
+    `/${API_KEY}/xml/Grid_20150827000000000226_1/3001/4000`,
+    `/${API_KEY}/xml/Grid_20150827000000000226_1/4001/5000`,
+    `/${API_KEY}/xml/Grid_20150827000000000226_1/5001/6000`,
+    `/${API_KEY}/xml/Grid_20150827000000000226_1/6001/6140`
+  ]
+
+  try {
+    // * 검색 결과 데이터 담을 빈 배열
+    let combinedData = [];
+
+    for (const URL of URLS) {
+      const response = await axios.get(`${PROXY}${URL}`);
+
+      if (response.status === 200) {
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(response.data, "text/xml");
+        const extractData = (tagName) => Array.from(xmlDoc.querySelectorAll(tagName)).map((item) => item.textContent);
+
+        const $recipe_id = extractData('RECIPE_ID'); // * 레시피 코드
+        const $recipe_name = extractData('RECIPE_NM_KO'); // * 레시피 이름
+        const $desc = extractData('SUMRY'); // * 레시피 간략소개
+        const $cook_time = extractData('COOKING_TIME'); // * 조리시간
+        const $kcal = extractData('CALORIE'); // * 칼로리
+        const $qnt = extractData('QNT'); // * 분량
+        const $level = extractData('LEVEL_NM'); // * 난이도
+        const $kind = extractData('NATION_NM'); // * 음식 분류(ex : 한식)
+        const $price = extractData('PN_NM'); // * 가격
+
+
+        // * 레시피이름과 레시피 ID를 합치기
+        for (let i = 0; i < Math.min($recipe_name.length, $recipe_id.length); i++) {
+          combinedData.push({
+            $recipe_id: $recipe_id[i],
+            $recipe_name: $recipe_name[i],
+            $desc: $desc[i],
+            $cook_time: $cook_time[i],
+            $kcal: $kcal[i],
+            $qnt: $qnt[i],
+            $level: $level[i],
+            $kind: $kind[i],
+            $price: $price[i],
+          });
+        }
+
+      } else {
+        console.log('데이터 불러오기 실패:', response.status);
+        return null;
+      }
+    }
+
+    const filterData = combinedData.filter(item => id === item.$recipe_id)
+    return filterData;
+
+  } catch (error) {
+    console.error('에러:', error);
+    return null;
+  }
+};
+
+
+
 // * 레시피 재료 정보 27 fetchDataIngredient
 export const fetchDataIngredient = async () => {
 
@@ -210,6 +281,65 @@ export const ResultIngredient = async (id) => {
 };
 
 
+
+
+// * 검색 결과 재료 데이터 상세
+export const ResultIngredientDetail = async (id) => {
+
+  const URLS = [
+    // ! 주석 잊지말 것 : 재료 정보에는 레시피 이름이 나오지 않음
+    `/${API_KEY}/xml/Grid_20150827000000000227_1/1/1000`,
+    `/${API_KEY}/xml/Grid_20150827000000000227_1/1001/2000`,
+    `/${API_KEY}/xml/Grid_20150827000000000227_1/2001/3000`,
+    `/${API_KEY}/xml/Grid_20150827000000000227_1/3001/4000`,
+    `/${API_KEY}/xml/Grid_20150827000000000227_1/4001/5000`,
+    `/${API_KEY}/xml/Grid_20150827000000000227_1/5001/6000`,
+    `/${API_KEY}/xml/Grid_20150827000000000227_1/6001/6140`
+  ]
+
+  try {
+    // * 검색 결과 데이터 담을 빈 배열
+    let combinedData = [];
+    // * 모든 응답에서 레시피 ID를 모을 배열
+    let combinedRecipeIds = [];
+
+    for (const URL of URLS) {
+      const response = await axios.get(`${PROXY}${URL}`);
+      if (response.status === 200) {
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(response.data, "text/xml");
+        const extractData = (tagName) => Array.from(xmlDoc.querySelectorAll(tagName)).map((item) => item.textContent);
+        const $ingredient_name = extractData('IRDNT_NM');
+        const $recipe_id = extractData('RECIPE_ID');
+        const $ingredient_Volume = extractData('IRDNT_CPCTY'); // * 재료 양
+
+        // * 재료명과 레시피 ID를 합치기
+        for (let i = 0; i < Math.min($ingredient_name.length, $recipe_id.length); i++) {
+          combinedData.push({
+            $ingredient_name: $ingredient_name[i],
+            $recipe_id: $recipe_id[i],
+            $ingredient_Volume: $ingredient_Volume[i],
+          });
+        }
+        // * 레시피 ID 모음
+        combinedRecipeIds = combinedRecipeIds.concat($recipe_id);
+
+      } else {
+        console.log('데이터 불러오기 실패:', response.status);
+        return null;
+      }
+    }
+    const filterData = combinedData.filter(item => id === item.$recipe_id)
+    return filterData;
+
+  } catch (error) {
+    console.error('에러:', error);
+    return null;
+  }
+};
+
+
+
 // * 레시피 과정 정보 28 fetchDataCourse
 
 export const fetchDataCourse = async (id) => {
@@ -262,6 +392,7 @@ export const fetchDataCourse = async (id) => {
 
     const filterData = combinedData.filter(item => id === item.$recipe_id)
     return filterData;
+    
 
   } catch (error) {
     console.error('에러:', error);
