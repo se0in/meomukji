@@ -6,7 +6,6 @@
 
 import styled from "styled-components";
 import theme from "./theme";
-import Loading from '../pages/Loading';
 
 // * 바탕 둥근 흰 박스
 export const BorderRadiusBox = styled.div`
