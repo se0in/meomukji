@@ -199,9 +199,6 @@ export const TopBtn = styled.button`
   padding: 10px 12px;
   box-shadow: 0 0 10px rgba(245, 150, 7, 0.4);
   transition: .3s;
-  &:hover {
-    bottom: 22px;
-  }
   svg {
     font-size: 24px;
     color: #fff;
@@ -209,5 +206,8 @@ export const TopBtn = styled.button`
   }
   &.show {
     bottom: 20px;
+    &:hover {
+      bottom: 22px;
+    }
   }
 `
