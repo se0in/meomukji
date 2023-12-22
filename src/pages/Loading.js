@@ -1,3 +1,9 @@
+/* 
+  author @se0in
+  Created Date : 2023.12.20.
+  * loading 시 나타날 페이지
+  * 이미지 교체되면서 페이지 위에 fixed로 띄움
+*/
 import React, { useEffect, useState } from "react";
 import "../scss/Loading.scss";
 import { ImgBox } from "../styled-components/Styled";
@@ -7,7 +13,7 @@ const Loading = ({ state, text }) => {
   const [imgIndex, setImgIndex] = useState(0);
   const [imgLoading, setImgLoading] = useState(true);
 
-  // 이미지 변경
+  // *이미지 변경
   useEffect(() => {
     const imgInterval = setInterval(() => {
       setImgIndex((prevIndex) => (prevIndex >= 4 ? 1 : prevIndex + 1));
