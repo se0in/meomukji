@@ -105,6 +105,7 @@ const Result = () => {
     setImgLoading(false);
   }, [matchedItems]);
 
+  
   return (
     <div className="Result">
       <PageTitle>
