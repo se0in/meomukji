@@ -4,7 +4,6 @@
  * * 검색 결과
  * * 추후 로그인 시에만 전체 리스트 볼 수 있도록 설계
  * */
-// TODO 검색 결과 중복되는 것이 상단에 오도록!
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ResultIngredient, fetchDataBasic } from "../server/server";
@@ -17,51 +16,16 @@ import ScrollTopBtn from '../components/ScrollTopBtn';
 
 
 const Result = () => {
-  const [loading, setLoading] = useState(false);
+  // * 이전 페이지(검색)에서 받아온 정보들
+  const location = useLocation();
+  const matchedItems = location.state.matchedItems;
+
+  const [loading, setLoading] = useState(true);
   const [imgLoading, setImgLoading] = useState(false);
   const [ingredientLoading, setIngredientLoading] = useState(false);
-  const location = useLocation();
   const [recipeInfo, setRecipeInfo] = useState([]);
   const [ingredient, setIngredient] = useState([]);
-
-
-  // * 이전 페이지(검색)에서 받아온 정보들
-  const matchedItems = location.state.matchedItems;
   const [imgUrls, setImgUrls] = useState({}); // * json이미지 url
-
-  // * 데이터 받아오기
-  useEffect(() => {
-    const id = matchedItems.map((item) => item.$recipe_id);
-    // * 기본 정보 데이터
-    const fetchDataIngredient = async () => {
-      setLoading(true)
-      try {
-        const DATA = await fetchDataBasic(id);
-        setRecipeInfo(DATA);
-      } catch (error) {
-        console.error("데이터를 불러오는 중에 에러가 발생했습니다. : ", error);
-      } finally {
-        setLoading(false)
-      }
-    };
-    fetchDataIngredient();
-
-    // * 재료 정보 데이터
-    const fetchRecipeBasicInfo = async () => {
-      setIngredientLoading(true)
-      try {
-        const DATA = await ResultIngredient(id);
-        setIngredient(DATA);
-
-      } catch (error) {
-        console.error("데이터를 불러오는 중에 에러가 발생했습니다. : ", error);
-      } finally {
-        setIngredientLoading(false)
-      }
-    };
-    fetchRecipeBasicInfo();
-  }, [matchedItems]);
-
 
   // * 중복된 재료 많은 순 나열
   const hasDuplicateIngredients = (recipeId) => {
@@ -89,6 +53,32 @@ const Result = () => {
       return 0;
     }
   });
+
+  // * 데이터 받아오기
+  useEffect(() => {
+    if (matchedItems.length > 0) {
+      setLoading(true);
+      setIngredientLoading(true); // 재료 데이터 로딩 시작
+
+      const id = matchedItems.map((item) => item.$recipe_id);
+
+      Promise.all([
+        fetchDataBasic(id),
+        ResultIngredient(id)
+      ])
+        .then(([basicData, recipeData]) => {
+          setRecipeInfo(basicData);
+          setIngredient(recipeData);
+        })
+        .catch((error) => {
+          console.error("데이터를 불러오는 중에 에러가 발생했습니다. : ", error);
+        })
+        .finally(() => {
+          setLoading(false);
+          setIngredientLoading(false);
+        });
+    }
+  }, [matchedItems]);
 
   // * $recipe_id와 json recipe_id가 같은 imgUrl 매칭해서 이미지 불러오기
   useEffect(() => {
@@ -126,19 +116,22 @@ const Result = () => {
         <div className="list-box">
           {/* // * 반복 돌릴 것 : Link */}
           {sortedRecipes.map((item) => (
-            <Link to={`/Detail/${item.$recipe_id}`} key={item.$recipe_id} recipe_id={item.$recipe_id}>
+            <Link
+              to={`/Detail/${item.$recipe_id}`}
+              key={item.$recipe_id}
+              recipe_id={item.$recipe_id}>
               <BorderRadiusBox className="list">
                 {/* // * 아이템 타이틀 */}
                 <div className="item-title">
                   <div className="img-box">
-                    {imgLoading ? 
-                    <AiOutlineLoading3Quarters className='loading-text' /> :
-                    <img
-                    src={process.env.PUBLIC_URL + imgUrls[item.$recipe_id]}
-                    alt={item.$recipe_name}
-                    loading="lazy"
-                    />
-                  }
+                    {imgLoading ?
+                      <AiOutlineLoading3Quarters className='loading-text' /> :
+                      <img
+                        src={process.env.PUBLIC_URL + imgUrls[item.$recipe_id]}
+                        alt={item.$recipe_name}
+                        loading="lazy"
+                      />
+                    }
                   </div>
                   <div className="text-box">
                     <span className='kind'>{item.$kind}</span>{/* 분류 */}
