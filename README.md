@@ -116,11 +116,11 @@
 </details>
 
 <details>
-  <summary>리스트에서 상세 이동 후 뒤로가기 시 리스트 스크롤 위치 복원</summary>
+  <summary>✨2024-01-03 추가✨ 리스트에서 상세 이동 후 뒤로가기 시 리스트 스크롤 위치 복원</summary>
   
   - sessionStorage에 window.scrollY값 저장
   - string Number로 타입 변환 후 대입
-  
+
   ```javascript
   // Result.js
   // * 상세 이동 후 뒤로가기 시 이전 스크롤 위치 유지
