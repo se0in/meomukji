@@ -114,3 +114,35 @@
   - package.json에 코드 추가
   `"proxy" : "http://211.237.50.150:7080"`
 </details>
+
+<details>
+  <summary>리스트에서 상세 이동 후 뒤로가기 시 리스트 스크롤 위치 복원</summary>
+  
+  - sessionStorage에 window.scrollY값 저장
+  - string Number로 타입 변환 후 대입
+  
+  ```javascript
+  // Result.js
+  // * 상세 이동 후 뒤로가기 시 이전 스크롤 위치 유지
+  useEffect(() => {
+    const storedScrollPosition = sessionStorage.getItem('scrollPosition');
+    if (storedScrollPosition && !loading) {
+      const scrollY = Number(storedScrollPosition);
+      window.scrollTo(0, scrollY);
+    }
+  },[loading]);
+
+  return (
+    <div 
+    className="Result"
+    onClick={()=> sessionStorage.setItem('scrollPosition', window.scrollY)} // * 클릭 시 스크롤 위치 저장
+    >
+    // 생략
+    </div>
+  )
+
+  // App.js
+  // * 검색 리스트 스크롤 위치 유지 이벤트 검색 페이지로 가면 리셋
+  if (location.pathname === '/Search') sessionStorage.setItem('scrollPosition', '0');
+  ```
+</details>

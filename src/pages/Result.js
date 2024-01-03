@@ -14,7 +14,6 @@ import Loading from './Loading';
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import ScrollTopBtn from '../components/ScrollTopBtn';
 
-
 const Result = () => {
   // * 이전 페이지(검색)에서 받아온 정보들
   const location = useLocation();
@@ -26,6 +25,15 @@ const Result = () => {
   const [recipeInfo, setRecipeInfo] = useState([]);
   const [ingredient, setIngredient] = useState([]);
   const [imgUrls, setImgUrls] = useState({}); // * json이미지 url
+
+  // * 상세 이동 후 뒤로가기 시 이전 스크롤 위치 유지
+  useEffect(() => {
+    const storedScrollPosition = sessionStorage.getItem('scrollPosition');
+    if (storedScrollPosition) {
+      const scrollY = Number(storedScrollPosition);
+      window.scrollTo(0, scrollY);
+    }
+  }, [loading]);
 
   // * 중복된 재료 많은 순 나열
   const hasDuplicateIngredients = (recipeId) => {
@@ -105,13 +113,16 @@ const Result = () => {
     setImgLoading(false);
   }, [matchedItems]);
 
-  
   return (
-    <div className="Result">
+    <div 
+    className="Result"
+    onClick={()=> sessionStorage.setItem('scrollPosition', window.scrollY)} // * 클릭 시 스크롤 위치 저장
+    >
       <PageTitle>
         검색 결과
         <span>{matchedItems.length}개의 레시피가 있습니다.</span>
       </PageTitle>
+      {/* < ScrollRestoration/> */}
       {loading ?
         <Loading text="레시피를 찾고 있어요!" state="재료 찾기 완료" /> :
         <div className="list-box">

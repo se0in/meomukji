@@ -18,6 +18,9 @@ import Detail from './pages/Detail';
 function App() {
   const location = useLocation();
 
+  // * 검색 리스트 스크롤 위치 유지 이벤트 검색 페이지로 가면 리셋
+  if (location.pathname === '/Search') sessionStorage.setItem('scrollPosition', '0');
+
   // * nav 놓을 곳
   const navBottomShowPath = ['/', '/Suggestion', '/Heart'];
 
